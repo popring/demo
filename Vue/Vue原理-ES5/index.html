@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <input v-model="age" />
+    <button v-click="increment">添加</button>
+    <p v-bind="age"></p>
+    <p v-bind="name"></p>
+  </div>
+
+  <script src="js/MyVue.js"></script>
+  <script>
+    var myvue = new MyVue({
+      el: '#app',
+      data: {
+        age: 18,
+        name: 'Rock'
+        // address: {
+        //   country: 'China',
+        //   provide: 'Cantonese',
+        //   city: 'ShenZhen',
+        // }
+      },
+      methods: {
+        increment: function () {
+          this.age++;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
