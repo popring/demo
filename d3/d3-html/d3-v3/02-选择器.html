@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>选择器</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="t1">
+        <p>pear</p>
+        <p>pear</p>
+        <p>pear</p>
+      </div>
+      <div id="t2">
+        <p>pear</p>
+        <p>pear</p>
+        <p>pear</p>
+      </div>
+    </div>
+    <script src="./js/d3.min.js"></script>
+    <script>
+      let str = "Apple";
+      let dataset = ["I like dog", "I like cat", "I like snake"];
+      const app = d3.select("#app");
+      const t1 = app.select("#t1"),
+        t2 = app.select("#t2");
+
+      t1.selectAll("p")
+        .datum(str)
+        .text(function(d, i) {
+          return "第" + i + "个元素，绑定的数据是：" + d;
+        });
+
+      t2.selectAll("p")
+        .data(dataset)
+        .text(function(d, i) {
+          return d;
+        });
+    </script>
+  </body>
+</html>

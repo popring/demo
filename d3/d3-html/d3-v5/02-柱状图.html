@@ -12,10 +12,7 @@
       <p></p>
     </div>
 
-    <script type="module">
-      import * as d3 from "./d3/d3.js";
-      // console.dir(d3);
-    </script>
+    <script src="./d3/d3.min.js"></script>
     <script>
       window.onload = function() {
         console.log(d3);
@@ -37,11 +34,11 @@
           .attr("height", height);
 
         svg
-          .selectAll("rect")  // 选择全部 rect 标签
+          .selectAll("rect") // 选择全部 rect 标签
           .data(dataset) // 绑定数据
           .enter() // 准备创建缺失的节点
           .append("rect") // 添加标签
-          .attr("x", 20)  // x 轴坐标
+          .attr("x", 20) // x 轴坐标
           .attr("y", function(d, i) {
             // d 当前绑定元素 , i 当前元素索引
             // 返回 y 轴坐标

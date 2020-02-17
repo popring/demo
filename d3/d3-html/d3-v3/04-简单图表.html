@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>元素操作</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="./js/d3.min.js"></script>
+    <script>
+      let width = 300;
+      let height = 300;
+      let rectHeight = 25;
+      var dataset = [250, 210, 170, 130, 90]; //数据（表示矩形的宽度）
+      const app = d3.select("#app");
+      const svg = app
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      svg
+        .selectAll("rect")
+        .data(dataset)
+        .enter() // 指定选择集的enter部分
+        .append("rect")
+        .attr("x", 20) // x轴位置
+        .attr("y", function(d, i) {
+          // y 轴位置
+          return i * rectHeight;
+        })
+        .attr("width", function(d) {
+          return d;
+        })
+        .attr("height", rectHeight - 2)
+        .attr("fill", "steelblue");
+    </script>
+  </body>
+</html>

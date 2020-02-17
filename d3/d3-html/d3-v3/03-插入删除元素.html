@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>元素操作</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>Apple</p>
+      <p>Pear</p>
+      <p>Banana</p>
+    </div>
+    <script src="./js/d3.min.js"></script>
+    <script>
+      const app = d3.select("#app");
+      
+      app.append("p").text("append 添加的元素");
+      app.insert('p').text('insert 添加的元素')
+
+      // 移除元素
+      const firstp = app.select("p");
+      firstp.remove();
+
+    </script>
+  </body>
+</html>

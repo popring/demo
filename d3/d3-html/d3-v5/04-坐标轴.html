@@ -4,15 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module">
-      import * as d3 from "./d3/d3.js";
-    </script>
+    <script src="./d3/d3.min.js"></script>
     <script>
       window.onload = function() {
-        console.log(d3);
         // svg 宽度
         let width = 300;
         // svg 高度
@@ -23,13 +33,10 @@
 
         let dataset = [1.2, 2.3, 0.9, 1.5, 3.3];
 
-        let min = d3.min(dataset);
-        let max = d3.max(dataset);
-
         // 按比例缩放
         let linear = d3
           .scaleLinear()
-          .domain([0, max])
+          .domain([0, d3.max(dataset)])
           .range([0, 300]);
 
         const app = d3.select("#app");
@@ -37,6 +44,13 @@
           .append("svg")
           .attr("width", width)
           .attr("height", height);
+
+        let axis = d3.axisBottom(linear).ticks();
+        svg
+          .append("g")
+          .attr("class", "axis")
+          .attr("transform", `translate(20,${dataset.length * rectHeight + 5})`)
+          .call(axis);
 
         svg
           .selectAll("rect")
