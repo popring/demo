@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        height: 100vh;
+        position: relative;
+      }
+      header {
+        width: 100%;
+        height: 50px;
+        background: red;
+      }
+      footer {
+        width: 100%;
+        height: 50px;
+        background: red;
+      }
+      .main-wrap {
+        display: flex;
+        width: 100%;
+        height: calc(100% - 100px);
+      }
+      .main-wrap .left {
+        width: 300px;
+        background: skyblue;
+      }
+      .main-wrap main {
+        flex: 1;
+        background: gold;
+      }
+      .main-wrap .right {
+        width: 300px;
+        background: khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <header></header>
+      <div class="main-wrap">
+        <aside class="left"></aside>
+        <main></main>
+        <aside class="right"></aside>
+      </div>
+      <footer></footer>
+    </div>
+  </body>
+</html>
