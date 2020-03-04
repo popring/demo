@@ -2,6 +2,7 @@
  * 选择排序
  * 时间复杂度 O(n^2).
  * 空间复杂度 O(n).
+ * 找到最大（小）的值，存在排列的起始位置，然后再从剩余的排序中继续查找，放入已排序的末尾，直至排序完毕。
  */
 Array.prototype.selectionSort = function() {
   let min
