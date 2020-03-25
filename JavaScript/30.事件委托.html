@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>事件委托</title>
+</head>
+<body>
+  <ul id="box">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+  </ul>
+
+  <script>
+    window.onload = function() {
+      document.getElementById('box').onclick = function(e) {
+        console.dir(e.target);
+        if(e.target.nodeName.toLowerCase() === 'li') {
+          alert(e.target.innerText);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

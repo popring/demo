@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 3000px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // 防抖: 函数在指定时间后执行，如果在此时间段内再次被调用，则重新计时
+
+      function debounce(fn, wait = 300) {
+        // 通过闭包缓存一个定时器 id
+        let timer = null
+        // 将 debounce 处理结果当作函数返回
+        // 触发事件回调时执行这个返回函数
+        return function(...args) {
+          // 如果已经设定过定时器就清空上一次的定时器
+          if (timer) clearTimeout(timer)
+
+          // 开始设定一个新的定时器，定时器结束后执行传入的函数 fn
+          timer = setTimeout(() => {
+            fn.apply(this, args)
+          }, wait)
+        }
+      }
+
+      window.addEventListener(
+        'scroll',
+        debounce(function(e) {
+          console.log(e)
+          // console.log(document.documentElement.scrollTop)
+        })
+      )
+    </script>
+  </body>
+</html>
