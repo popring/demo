@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var obj1 = {
+        name: 'harry',
+        age: 18,
+        language: ['en-us', 'Spanish', ['Chinese', 'Cantonese']],
+        birth: new Date(),
+        obj: { a: 1, b: 2 },
+        test: function () {
+          this.name = 'xxx'
+        },
+        reg: new RegExp(
+          /^([A-Za-z0-9_\-])+\@([A-Za-z0-9_\-])+\.[A-Za-z]{2,5}$/g
+        ),
+      }
+
+      // 无法拷贝函数、正则、date
+      function deepCopy(obj) {
+        var str = JSON.stringify(obj)
+        var copyObj = JSON.parse(str)
+        return copyObj
+      }
+
+      function deepCopy2(target) {
+        var res = null
+        if (Array.isArray(target)) {
+          res = []
+        } else if (target instanceof RegExp) {
+          // 慎用
+          return eval(`new RegExp(${target.toString()})`)
+        } else {
+          res = {}
+        }
+
+        for (const key in target) {
+          if (
+            typeof target[key] === 'object' &&
+            target[key] !== null &&
+            !(target[key] instanceof Date)
+          ) {
+            console.warn('复杂类型')
+            res[key] = deepCopy2(target[key])
+          } else {
+            console.warn('简单类型')
+            res[key] = target[key]
+          }
+        }
+        return res
+      }
+
+      var obj2 = deepCopy(obj1)
+      var obj3 = deepCopy2(obj1)
+      // var obj4 = shallowCopy2(obj1)
+
+      obj2.name = 'Pizi'
+      obj2.age = 20
+      obj2.language[0] = 'en-uk'
+
+      obj3.name = 'Jams'
+      obj3.age = 21
+      obj3.language[1] = 'Korean'
+      obj3.test()
+
+      // obj4.name = 'obj4'
+      // obj4.age = 22
+      // obj4.language[2] = '汉语'
+
+      console.log(obj1)
+      console.log(obj2)
+      console.log(obj3)
+      // console.log(obj4)
+    </script>
+  </body>
+</html>

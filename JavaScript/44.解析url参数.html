@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var url =
+        'https://www.google.com/search?newwindow=1&ei=pTgBX4GRJ8nO0PEPtaWCuA8&q=js+%E6%B7%B1%E6%8B%B7%E8%B4%9D&oq=js+shenkao&gs_lcp=CgZwc3ktYWIQAxgAMgIIADIECAAQDDICCAAyBAgAEAwyAggAMgIIADIECAAQDDICCAAyAggAMgIIADoFCAAQsAM6BwgAELADEAw6BwgAELADEB46CQgAELADEAgQHjoECAAQQ1CdknVY7Jd1YJSidWgDcAB4AIABgQKIAbQNkgEDMi03mAEAoAEBqgEHZ3dzLXdpeg&sclient=psy-ab&foo=1&foo=2'
+
+      function queryString(url) {
+        var res = url.split('?')
+        var params = url.slice(res[0].length + 1).split('&')
+        var obj = {}
+        params.forEach((param) => {
+          var paramItem = param.split('=')
+          var key = paramItem[0]
+          var value = paramItem[1]
+          if (obj[key] === undefined) {
+            obj[key] = value
+          } else {
+            var tmp = obj[key]
+            if (Array.isArray(tmp)) {
+              obj[key].push(value)
+            } else {
+              obj[key] = [tmp, value]
+
+            }
+          }
+        })
+
+        return obj
+      }
+
+      console.log(queryString(url))
+
+      var p = new URLSearchParams(url.split('?')[1])
+      console.log(p.getAll('ei'))
+    </script>
+  </body>
+</html>

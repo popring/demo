@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var obj1 = {
+        name: 'harry',
+        age: 18,
+        language: ['en-us', 'Spanish', ['Chinese', 'Cantonese']],
+      }
+
+      // 浅拷贝1
+      function shallowCopy(obj) {
+        var copyObj = {}
+
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            copyObj[key] = obj[key]
+          }
+        }
+        return copyObj
+      }
+
+      // 浅拷贝2
+      function shallowCopy2(obj) {
+        return { ...obj }
+      }
+
+      var obj2 = obj1
+      var obj3 = shallowCopy(obj1)
+      var obj4 = shallowCopy2(obj1)
+
+      obj2.name = 'Pizi'
+      obj2.age = 20
+      obj2.language[0] = 'en-uk'
+
+      obj3.name = 'Jams'
+      obj3.age = 21
+      obj3.language[1] = 'Korean'
+
+      obj4.name = 'obj4'
+      obj4.age = 22
+      obj4.language[2] = '汉语'
+
+      // obj1和obj2 指向同一个地址，所以两个对象值均相同
+      console.log(obj1)
+      console.log(obj2)
+      // 浅拷贝出来的对象，但因为数组时引用类型，地址还是指向obj1,language，所以与前两个对象的 language 值相同
+      console.log(obj3)
+      // 与obj3 类似
+      console.log(obj4)
+
+      // 运行结果
+      
+      // obj1 = {
+      //   name: 'Pizi',
+      //   age: 20,
+      //   language: ['en-uk', 'Korean', ['Chinese', 'Cantonese']],
+      // }
+
+      // obj2 = {
+      //   name: 'Pizi',
+      //   age: 20,
+      //   language: ['en-uk', 'Korean', ['Chinese', 'Cantonese']],
+      // }
+
+      // obj3 = {
+      //   name: 'Jams',
+      //   age: 21,
+      //   language: ['en-uk', 'Korean', ['Chinese', 'Cantonese']],
+      // }
+
+      // obj4 = {
+      //   name: 'obj4',
+      //   age: 22,
+      //   language: ['en-uk', 'Korean', '汉语'],
+      // }
+    </script>
+  </body>
+</html>
