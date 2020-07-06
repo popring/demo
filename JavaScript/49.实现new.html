@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Counter(name = 'xxx') {
+        this.name = name
+      }
+      Counter.prototype.sayName = function () {
+        console.log(this.name)
+      }
+
+      // 1. new实现
+      // var c1 = new Counter('harry')
+      // c1.sayName()
+
+      // 2. 手动实现
+      // function create(Con, ...args) {
+      //   const obj = {}
+      //   Object.setPrototypeOf(obj, Con.prototype)
+      //   const result = Con.apply(obj, args)
+      //   return result instanceof Object ? result : obj
+      // }
+      // var c2 = create(Counter, 'jack')
+      // console.log(c2)
+      // c2.sayName()
+
+      // 3. 手动创建
+      function create(Fun, ...args) {
+        const obj = Object.create({})
+        obj.__proto__ = Fun.prototype
+        Fun.apply(obj, args)
+        return obj
+      }
+      var c3 = create(Counter, 'ko')
+      console.log(c3.name)
+      c3.sayName()
+    </script>
+  </body>
+</html>

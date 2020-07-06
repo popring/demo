@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">Click</button>
+    <button id="btn2">Click2</button>
+    <script>
+      // 尝试分别在两秒内点击两按钮，控制台查看输出情况。
+
+      // 1. 利用闭包，返回函数导致此函数不会被 v8 垃圾回收，一直存在，所以值也会累加
+      function test() {
+        var count = 1
+        // console.log(count)
+        return function () {
+          setTimeout(() => {
+            count++
+            console.log(count)
+          }, 2000)
+        }
+      }
+
+      // 2. 这里的没有形成闭包，所以点击一次执行完毕后会将此块内存销毁，
+      function test2() {
+        var count = 1
+        // console.log(count)
+        setTimeout(function () {
+          count++
+          console.log(count)
+        }, 2000)
+      }
+
+      document.getElementById('btn').onclick = test()
+      document.getElementById('btn2').onclick = function () {
+        test2()
+      }
+    </script>
+  </body>
+</html>
