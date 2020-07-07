@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arr = [1, 2, 3, 4, 5, 4, 3, 2, 1, 9, 23]
+
+      // 不重复，集合结构，可遍历，无序，值可为任意类型
+      const set = new Set(arr)
+      // set.add({ 1: 2 })
+      // set.add(null)
+      // console.log(set)
+      // set.add(11)
+      // set.delete(3)
+      // console.dir(set.entries())
+      // set.has(2)
+      // console.dir(set.keys())
+      // for (const iterator of set) {
+      //   console.log(iterator)
+      // }
+
+      // 与set类似，不重复，不同：值只能为对象（null除外），不能遍历
+      // 这里的对象均为弱引用，WeakSet 适合临时存放一组对象，以及存放跟对象绑定的信息。只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。（这个特点与WeakMap类似）
+      // const wSet = new WeakSet()
+      // const key = [1, 2]
+      // wSet.add(key)
+      // wSet.add([2, 3])
+      // console.log(wSet)
+      // console.log(wSet.has(key))
+      // console.log(wSet.has(key))
+
+      // 传统js对象只能以字符串和Symbol为键，其他类型会自动转换为字符串形式
+      // Map 为键值对形式，健可为任意类型,
+      // const map = new Map()
+      // map.set('a', 'a')
+      // map.set(1, '1')
+      // console.log(map)
+
+      // 与Map类似,不同:只能以对象为键名(不包括null和Symbol)
+      var wMap = new WeakMap()
+      var p = document.createElement('p')
+      var p2 = document.createElement('p')
+      p.setAttribute('id', 'p')
+      p2.setAttribute('id', 'p2')
+      p.innerText = 'js 插入 dom 的 p'
+      p2.innerText = '22222 js 插入 dom 的 p'
+      document.body.appendChild(p)
+      document.body.append(p2)
+      wMap.set({ 1: 1 }, 123)
+      wMap.set(p, 'p')
+      wMap.set(p2, 'p2')
+      console.log(wMap)
+      document.body.removeChild(p)
+      p = null
+      console.log(wMap)
+
+      // const a = Symbol(1)
+      // const b = Symbol(1)
+      // let obj = {}
+      // obj[a] = 1
+      // obj[b] = 1
+      // console.log(obj)
+    </script>
+  </body>
+</html>
