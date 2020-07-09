@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var foo = {
+        a: 1,
+        b: 2,
+      }
+
+      function bar() {
+        // this.a = '12'
+        // this.b = '34'
+        console.log(this.a)
+        console.log(this.b)
+      }
+
+      // var bindFoo = bar.bind(foo)
+      // bindFoo()
+
+      bar.__proto__.bindFoo = function (foo) {
+        var _this = this
+        return function () {
+          return _this.apply(foo)
+        }
+      }
+      bar.bindFoo(foo)()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var a = 123
+
+      function fun() {
+        console.log('start')
+
+        setTimeout(() => {
+          console.log(1)
+          Promise.resolve().then(() => {
+            console.log(2)
+          })
+        }, 1000)
+
+        setTimeout(() => {
+          console.log(3)
+          Promise.resolve().then(() => {
+            console.log(4)
+          })
+        }, 1000)
+
+        Promise.resolve().then(() => {
+          console.log(5)
+          setTimeout(() => {
+            console.log(6)
+          })
+        })
+
+        Promise.resolve().then(() => {
+          console.log(7)
+          setTimeout(() => {
+            console.log(8)
+          })
+        })
+
+        new Promise(() => {
+          console.log(9)
+        })
+
+        console.log('end')
+      }
+
+      fun()
+    </script>
+  </body>
+</html>

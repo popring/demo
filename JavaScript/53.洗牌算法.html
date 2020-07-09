@@ -2,9 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Title</title>
 </head>
 <body>
-$END$
+<script>
+let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+// 简单洗牌算法
+// function shuffleSimple (arr) {
+//   return arr.sort(() => 0.5 - Math.random())
+// }
+//
+// const narr = shuffleSimple(arr)
+// console.log(narr)
+
+// 进阶 Fisher–Yates shuffle
+// function shuffle (arr) {
+//   for (let i = arr.length; i > 0; i--) {
+//     let randomIndex = Math.floor(Math.random() * arr.length) - 1
+//     let tmp = arr[randomIndex]
+//     arr[randomIndex] = arr[i]
+//     arr[i] = tmp
+//   }
+//   return arr.slice()
+// }
+
+// 进阶版本 Fisher–Yates shuffle  简写
+function shuffle (arr) {
+  let m = arr.length;
+  while (m > 1){
+    let index = Math.floor(Math.random() * m--);
+    [arr[m] , arr[index]] = [arr[index] , arr[m]]
+  }
+  return arr;
+}
+
+console.log(shuffle(arr))
+
+
+</script>
 </body>
 </html>
