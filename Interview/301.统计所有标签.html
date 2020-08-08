@@ -1,0 +1,43 @@
+<html>
+  <head></head>
+  <body>
+    <div></div>
+    <p></p>
+  </body>
+  <script>
+    function getTags() {
+      var tags = [];
+      var html = document.documentElement;
+      travsersNode(html, tags);
+      return tags;
+    }
+
+    function travsersNode(node, tags) {
+      if (node.nodeType === 1) {
+        tags.push(node.tagName.toLowerCase());
+        for (let i = 0; i < node.childNodes.length; i++) {
+          const item = node.childNodes[i];
+          if (item.hasChildNodes) {
+            travsersNode(item, tags);
+          } else {
+            tags.push(node.tagName.toLowerCase());
+          }
+        }
+      }
+    }
+
+    console.log(getTags());
+
+
+    function getTags() {
+      var tags = document.getElementsByTagName('*')
+      var res = []
+      for (const item of tags) {
+        res.push(item.tagName.toLowerCase())
+      }
+      return res
+    }
+
+    console.log(getTag());
+  </script>
+</html>

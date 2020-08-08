@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1. 借助构造函数实现, 可以调用父类构造函数，但或许不到父类原型对象上的方法和属性
+      function P1() {
+        this.name = "P1";
+      }
+      P1.prototype.say = function () {
+        console.log("say hello");
+      };
+      function C1() {
+        P1.call(this);
+        this.type = "c1";
+      }
+      var o1 = new C1();
+      console.log("o1 :>> ", o1);
+      // console.log('o1.say :>> ', o1.say());
+
+      // 2. 利用原型链实现，缺点：原型链中的原型对象是共用的。
+      function P2() {
+        this.name = "P2";
+        this.play = [1, 2, 3];
+      }
+      function C2() {
+        this.type = "c2";
+      }
+      C2.prototype = new P2();
+      var o2 = new C2();
+      var o3 = new C2();
+      // 理想状态应该是只有 o2.play 发生变化，但实际上 o3.play 也发生了变化
+      o2.play.push(4);
+      console.log("o2 :>> ", o2);
+      console.log("o3 :>> ", o3);
+
+      // 3. 组合方式，将前两种方法组合，解决了之前的缺点，但父类被调用了两次
+      function P3() {
+        this.name = "P3";
+        this.play = [1, 2, 3];
+      }
+      function C3() {
+        // 父类调用第一次
+        P3.call(this)
+        this.type = "C3";
+      }
+      // 父类调用第二次
+      C3.prototype = new P3();
+      var o4 = new C3();
+      var o5 = new C3();
+      o4.play.push(4);
+      console.log("o4 :>> ", o4);
+      console.log("o5 :>> ", o5);
+
+      // 4. 组合继承优化1，无法判断是子类创建的对象还是父类创建的对象
+      function P4() {
+        this.name = "P4";
+        this.play = [1, 2, 3];
+      }
+      function C4() {
+        P4.call(this)
+        this.type = "C4";
+      }
+      C4.prototype = P4.prototype;
+      var o6 = new C4();
+      var o7 = new C4();
+      o6.play.push(4);
+      console.log("o6 :>> ", o6);
+      console.log("o7 :>> ", o7);
+
+      // 5. 继承优化2
+      function P5() {
+        this.name = "P5";
+        this.play = [1, 2, 3];
+      }
+      function C5() {
+        P5.call(this)
+        this.type = "C5";
+      }
+      C5.prototype = Object.create(P5.prototype);
+      C5.prototype.constructor = C5
+      var o8 = new C5();
+      var o9 = new C5();
+      o8.play.push(4);
+      console.log("o8 :>> ", o8);
+      console.log("o9 :>> ", o9);
+
+      // 6. ES6 方式
+      class P6 {
+        constructor() {
+          this.name = "P6"
+          this.play = [1,2,3]
+        }
+      }
+      class C6 extends P6 {
+        constructor() {
+          super()
+          this.type = "C6"
+        }
+      }
+      var o10 = new C6()
+      var o11 = new C6()
+      o10.play.push(4)
+      console.log('o10 :>> ', o10);
+      console.log('o11 :>> ', o11);
+    </script>
+  </body>
+</html>

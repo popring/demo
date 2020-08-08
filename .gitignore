@@ -6,3 +6,6 @@ node_modules
 react-demo
 vue-demo
 .idea
+.DS_Store
+/demo.js
+/test.html

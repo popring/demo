@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="money" />
+    <script>
+      var mon = document.getElementById("money");
+      mon.oninput = function (e) {
+        var m = e.target;
+        console.log("m :>> ", m.value);
+        var val = m.value;
+        var reg = /^\d+(\.\d{1,2})?$/g;
+        console.log("reg.test(val) :>> ", reg.test(val));
+      };
+    </script>
+  </body>
+</html>
