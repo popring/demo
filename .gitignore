@@ -9,3 +9,5 @@ vue-demo
 .DS_Store
 /demo.js
 /test.html
+cdn.json
+/ts

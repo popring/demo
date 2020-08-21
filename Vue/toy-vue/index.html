@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" v-model="msg">
+      <button @click="reverseMessage">click</button>
+      <p :title="msg">{{msg}}</p>
+    </div>
+    <script type="module">
+      import { ToyVue as Vue } from './toy-vue.js'
+      var vue = new Vue({
+        el: '#app',
+        data:{
+          msg: 'This is msg',
+        },
+        methods: {
+          reverseMessage: function() {
+            this.msg = this.msg.split('').reverse().join('')
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
