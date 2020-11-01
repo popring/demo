@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <p v-for="item in items" :key="item.id">{{item.message}}</p>
+      <button class="btn" @click="btn2Click()">动态赋值</button><br />
+      <button class="btn" @click="btn3Click()">为data新增属性</button>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script>
+      var vm2 = new Vue({
+        el: '#root',
+        data: {
+          items: [
+            { message: 'Test one', id: '1' },
+            { message: 'Test two', id: '2' },
+            { message: 'Test three', id: '3' },
+          ],
+        },
+        methods: {
+          btn2Click: function () {
+            this.items[0] = { message: 'Change Test', id: '10' }
+            console.log(this.items);
+            // Vue.set(this.items, 0, { message: 'Change Test', id: '10' })
+          },
+          btn3Click: function () {
+            var itemLen = this.items.length
+            Vue.set(this.items, itemLen, {
+              message: 'Test add attr',
+              id: itemLen,
+            })
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
