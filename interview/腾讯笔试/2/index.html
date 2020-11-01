@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // n 时间长度，m 需要毫升数，k 温度， ns 各个阶段的水温
+      function calcWaterTemperature(n, m, k, ns) {
+        let start = 0
+        while (start < n-m) {
+          let sum = 0
+          for (let i = start; i < start + m; i++) {
+            sum += ns[i]
+          }
+          let avg = sum / m
+          if (avg === k) {
+            return start + m
+          }
+          start++
+        }
+        return -1
+      }
+
+      let n = 10,
+        m = 5,
+        k = 50
+      let ns = [10, 20, 30, 40, 50, 60, 70, 70, 70, 70]
+      console.time(1)
+      let res = calcWaterTemperature(n,m,k,ns)
+      console.timeEnd(1)
+      console.log('res :>> ', res);
+    </script>
+  </body>
+</html>

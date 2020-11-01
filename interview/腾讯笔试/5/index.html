@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // hex rgb(a) hsl(a)
+
+      function testColor(color) {
+        var hexReg = /^#[0-9a-fA-F]{6}$/g
+        var rgbReg = /^rgb\([0-255]{1,3}\,\s*[\d]{0,3}\,\s*[\d]{0,3}\)/
+        var rgbaReg = /^rgba\([\d]{0,3}\,\s*[\d]{0,3}\,\s*[\d]{0,3}\,\s*([0]?[.]?[0-9]+)\)/
+
+        var result =
+          hexReg.test(color) || rgbReg.test(color) || rgbaReg.test(color)
+
+        return result ? 'valid' : 'invalid'
+      }
+
+      // test hex
+      console.log(testColor('rgb(255, 154, 97)'))
+      console.log(testColor('#252525'))
+      console.log(testColor('rgba(0, 154, 97, 0.1)'))
+    </script>
+  </body>
+</html>

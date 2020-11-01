@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var vue = {
+        $on(event, callback) {
+          if (this[event] !== undefined) {
+            let tmp = this[event]
+            this[event] = []
+            this[event][tmp.length] = tmp
+            this[event][callback.length] = callback
+          } else {
+            this[event] = callback
+          }
+        },
+        $emit(event) {
+          if (Array.isArray(this[event])) {
+            this[event][arguments.length - 1].apply(
+              this,
+              Array.from(arguments).slice(1)
+            )
+          } else {
+            this[event].apply(this, Array.from(arguments).slice(1))
+          }
+        },
+      }
+
+      // 监听
+      vue.$on('msg', function (a) {
+        console.log(a)
+      })
+      vue.$on('msg', function (a, b) {
+        console.log(a, b)
+      })
+      // 触发
+      vue.$emit('msg', 1, 2)
+      vue.$emit('msg', 1)
+    </script>
+  </body>
+</html>

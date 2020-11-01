@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        line-height: 100px;
+      }
+      .box1 {
+        background-color: red;
+        visibility: hidden;
+      }
+      .box2 {
+        background-color: skyblue;
+        opacity: 0;
+      }
+      .box3 {
+        background-color: yellow;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="con">
+      <div class="box box1">0001</div>
+      <!-- <div class="box box2">0002</div> -->
+      <div class="box box3">0003</div>
+    </div>
+    <script>
+      var con = document.getElementById('con')
+      con.addEventListener('click', function(e) {
+        console.log(e.target.innerText);
+      })
+    </script>
+  </body>
+</html>
