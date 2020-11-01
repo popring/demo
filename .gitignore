@@ -7,7 +7,7 @@ react-demo
 vue-demo
 .idea
 .DS_Store
-/demo.js
+/[demo|test|tmp]*.*
 /test.html
 cdn.json
 /ts
