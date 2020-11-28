@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="job" style="width: 100px; height: 100px; background-color: yellow;"></div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $.extend({
+        address: function () {
+          console.log('获取到最新的地址 ')
+          return this
+        },
+      })
+
+      $.address()
+
+      ;(function ($) {
+        $.fn.extend({
+          Job: function () {
+            console.log('噢，我在搬砖')
+            return this
+          },
+        })
+      })(jQuery)
+
+      // $('#job').Job().css('background', 'red')
+
+      console.log($('#job'));
+      $('#job').click(function(e) {
+        $('#job').Job().css('background', 'red')
+      })
+    </script>
+  </body>
+</html>
