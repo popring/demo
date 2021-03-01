@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // [题目1]TOPN
+      // 给定X个int数组，每个数组长度为Y，每个数组中的每个元素均为随机产生，并且可能重复，要求编写代码满足下列需求：
+      // - 获取所有数组中最大的N个值
+      // - 需要编写单元测试并提供合适的测试用例
+      // - 分析实现代码的时间复杂度和空间复杂度，并尝试优化至最佳
+
+      // 测试用例：
+      let generatorExample = () => {
+        // 随机生成数字
+        let randomNum = () => parseInt(Math.random() * 100)
+
+        // 生成数组
+        let randomArr = (len) => {
+          let arr = []
+          for (let i = 0; i < len; i++) {
+            arr.push(randomNum())
+          }
+          return arr
+        }
+
+        // 生成二维数组
+        let randomCollection = (arrLen, everyLen) => {
+          let arr = []
+          for (let i = 0; i < arrLen; i++) {
+            arr.push(randomArr(everyLen))
+          }
+          return arr
+        }
+
+        return randomCollection(10, 5)
+      }
+
+      let randomRes = generatorExample()
+      console.log('randomCollection(10, 5) :>> ', randomRes)
+
+      // 解法：寻找所有数组中最大值
+      function findArrMax(arr) {
+        // 查找一维数组中的最大值
+        let findMax = (itemArr) => Math.max.apply(null, itemArr)
+
+        let maxArr = []
+        for (let i = 0; i < arr.length; i++) {
+          const itemArr = arr[i]
+          maxArr.push(findMax(itemArr))
+        }
+        return maxArr
+      }
+
+      let res = findArrMax(randomRes)
+      console.log('获取所有数组中最大的N个值 :>> ', res)
+    </script>
+
+    <script>
+      // [题目2] 求X的平方根
+      // 实现 int sqrt(int x) 函数。
+      // 计算并返回 x 的平方根，其中 x 是非负整数。
+      // 由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+
+      // 解法：
+      function sqrt(x) {
+        return parseInt(Math.sqrt(x))
+      }
+
+      // 测试：
+      console.log('求4的平方根 :>> ', sqrt(4));
+      console.log('求8的平方根 :>> ', sqrt(8));
+    </script>
+
+    <script>
+      // [题目3]LRU缓存
+      // 实现单节点KV缓存，KV均为字符串类型，并且提供初始化接口和读写缓存接口，要求编写代码满足下列需求：
+      // - 初始化缓存需要设定最大容量
+      // - 当缓存容量达到最大值时，需要按照LRU方式进行淘汰缓存
+      // - 读写缓存，淘汰缓存时间复杂度均满足O(1)
+    </script>
+  </body>
+</html>

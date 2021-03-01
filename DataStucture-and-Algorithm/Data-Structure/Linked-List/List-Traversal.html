@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 链表遍历
+
+      const root = {
+        val: 'A',
+        left: {
+          val: 'B',
+          left: {
+            val: 'D',
+          },
+          right: {
+            val: 'E',
+          },
+        },
+        right: {
+          val: 'C',
+          right: {
+            val: 'F',
+          },
+        },
+      }
+      // 先序遍历
+      function preorder(root) {
+        // 递归边界，root 为空
+        if (!root) {
+          return
+        }
+
+        // 输出当前遍历的结点值
+        console.log('当前遍历的结点值是：', root.val)
+        // 递归遍历左子树
+        preorder(root.left)
+        // 递归遍历右子树
+        preorder(root.right)
+      }
+
+      // 中序遍历
+      function inorder(root) {
+        // 递归边界，root 为空
+        if (!root) {
+          return
+        }
+
+        // 递归遍历左子树
+        inorder(root.left)
+        // 输出当前遍历的结点值
+        console.log('当前遍历的结点值是：', root.val)
+        // 递归遍历右子树
+        inorder(root.right)
+      }
+
+      // 后序遍历
+      function postorder(root) {
+        // 递归边界，root 为空
+        if (!root) {
+          return
+        }
+
+        // 递归遍历左子树
+        postorder(root.left)
+        // 递归遍历右子树
+        postorder(root.right)
+        // 输出当前遍历的结点值
+        console.log('当前遍历的结点值是：', root.val)
+      }
+      preorder(root)
+    </script>
+  </body>
+</html>
