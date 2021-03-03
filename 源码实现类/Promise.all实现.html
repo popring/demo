@@ -1,39 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <script>
-      function PromiseAll(promiseArray) {
-        return new Promise((resolve, reject) => {
-          if (!Array.isArray(promiseArray)) {
-            reject(new Error('参数必须为数组'))
-          }
 
-          const res = []
-          const promiseNums = promiseArray.length
-          let counter = 0
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-          for (let i = 0; i < promiseNums; i++) {
-            Promise.resolve(promiseArray[i])
-              .then((value) => {
-                counter++
-                res[i] = value
+<body>
+  <script>
+    function PromiseAll(promiseArray) {
+      return new Promise((resolve, reject) => {
+        if (!Array.isArray(promiseArray)) {
+          reject(new Error('参数必须为数组'))
+        }
 
-                if (counter === promiseNums) {
-                  resolve(res)
-                }
-              })
-              .catch((reason) => {
-                reject(reason)
-              })
-          }
-        })
-      }
-    </script>
-  </body>
+        const res = []
+        const promiseNums = promiseArray.length
+        let counter = 0
+
+        for (let i = 0; i < promiseNums; i++) {
+          Promise.resolve(promiseArray[i])
+            .then((value) => {
+              counter++
+              res[i] = value
+
+              if (counter === promiseNums) {
+                resolve(res)
+              }
+            })
+            .catch((reason) => {
+              reject(reason)
+            })
+        }
+      })
+    }
+
+    // 以下为测试用例
+
+    const p1 = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('p1')
+      }, 1000)
+    })
+
+    const p2 = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('p2')
+      }, 2000)
+    })
+
+    const p3 = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('p3')
+      }, 3000)
+    })
+
+    const p4 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject('p4')
+      }, 4000)
+    })
+
+
+    const arr = [p1, p2, p4, p3]
+    PromiseAll(arr).then(res => {
+      console.log('实现 PromiseAll 结果 res :>> ', res);
+    }).catch(e => {
+      console.log('实现 PromiseAll 结果 错误 p4 :>> ', e);
+    })
+
+    Promise.all(arr).then(res => {
+      console.log('原生 Promise.all 结果 res :>> ', res);
+    }).catch(e => {
+      console.log('原生 Promise.all 结果 错误 p4 :>> ', e);
+    })
+  </script>
+</body>
+
 </html>
