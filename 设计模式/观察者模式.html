@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class Publisher {
+      constructor() {
+        this.list = []
+      }
+
+      addListener(sub) {
+        this.list.push(sub)
+      }
+
+      removeListener(sub) {
+        const index = this.list.findIndex((val) => val === sub)
+        this.list.splice(index, 1)
+      }
+
+      notify(obj) {
+        this.list.forEach(item => {
+          item.process(obj)
+        })
+      }
+    }
+
+    class Subscriber {
+      constructor(name) {
+        this.name = name
+      }
+
+      process(obj) {
+        console.log('触发 :>> ', this.name, obj.name);
+      }
+    }
+
+    var p = new Publisher()
+    var s1 = new Subscriber('订阅1')
+    var s2 = new Subscriber('订阅2')
+    var s3 = new Subscriber('订阅3')
+    p.addListener(s1)
+    p.addListener(s2)
+    p.addListener(s3)
+
+    p.notify({ name: '通知的更新' })
+
+  </script>
+</body>
+
+</html>
