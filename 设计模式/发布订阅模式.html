@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn1">触发</button>
+  <script>
+    // Node中的EventEmitter 就是用的发布订阅模式，vue 中的 EventBus 也是发布订阅模式
+    class EventEmitter {
+      constructor() {
+        this.list = {}
+      }
+
+      on(name, fn, type = 1) {
+        if (!this.list[name]) {
+          this.list[name] = []
+        }
+        this.list[name].push([fn, type])
+      }
+
+      once(name, fn) {
+        this.on(name, fn, 0)
+      }
+
+      remove(name, func) {
+        const fns = this.list[name]
+        const index = fns.findIndex(fn => fn[0] === func)
+        fns.splice(index, 1)
+      }
+
+      emit(name, ...args) {
+        const fns = this.list[name]
+        if (!fns || fns.length <= 0) {
+          return
+        }
+
+        fns.forEach((fn, index) => {
+          fn[0].apply(this, args)
+          if (fn[1] === 0) {
+            fns.splice(index, 1)
+          }
+        });
+      }
+
+    }
+
+    let bus = new EventEmitter()
+
+    bus.on("click", (value) => {
+      console.log(value)
+    })
+
+
+    var btn1 = document.getElementById('btn1')
+    var counter = 1
+    btn1.addEventListener('click', function () {
+      bus.emit("click", counter++)
+    })
+
+  </script>
+</body>
+
+</html>
