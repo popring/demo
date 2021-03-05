@@ -10,6 +10,9 @@
 
 <body>
   <button id="btn1">触发</button>
+  <button id="btn2">移除事件</button>
+  <button id="btn3">绑定只执行一次的事件</button>
+  <button id="btn4">绑定事件</button>
   <script>
     // Node中的EventEmitter 就是用的发布订阅模式，vue 中的 EventBus 也是发布订阅模式
     class EventEmitter {
@@ -18,7 +21,7 @@
       }
 
       on(name, fn, type = 1) {
-        if (!this.list[name]) {
+        if (!this.list[name] || !Array.isArray(fns) || fns.length <= 0) {
           this.list[name] = []
         }
         this.list[name].push([fn, type])
@@ -30,6 +33,9 @@
 
       remove(name, func) {
         const fns = this.list[name]
+        if (!fns || !Array.isArray(fns) || fns.length <= 0) {
+          return
+        }
         const index = fns.findIndex(fn => fn[0] === func)
         fns.splice(index, 1)
       }
@@ -50,17 +56,34 @@
 
     }
 
-    let bus = new EventEmitter()
+    var bus = new EventEmitter()
 
-    bus.on("click", (value) => {
+    function log(value) {
       console.log(value)
-    })
+    }
+    bus.on("click", log)
 
 
     var btn1 = document.getElementById('btn1')
+    var btn2 = document.getElementById('btn2')
+    var btn3 = document.getElementById('btn3')
+    var btn4 = document.getElementById('btn4')
+
     var counter = 1
     btn1.addEventListener('click', function () {
       bus.emit("click", counter++)
+    })
+
+    btn2.addEventListener('click', function () {
+      bus.remove('click', log)
+    })
+
+    btn3.addEventListener('click', function () {
+      bus.once('click', log)
+    })
+
+    btn4.addEventListener('click', function () {
+      bus.on("click", log)
     })
 
   </script>
