@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 测试代码
+      function test() {
+        function fn(a, b, c) {
+          console.log('a,b,c :>> ', a, b, c)
+          console.log('this.name :>> ', this.name)
+        }
+
+        var name = 'window'
+        var obj = {
+          name: ' obj',
+        }
+        var arr = [0, 1, 2]
+
+        console.log('-------- test fn.call --------')
+        fn.call(obj, ...arr)
+        console.log('-------- test call --------')
+        fn._call(obj, ...arr)
+        console.log('-------- test fn.apply --------')
+        fn.apply(obj, arr)
+        console.log('-------- test apply--------')
+        fn._apply(obj, arr)
+        console.log('-------- test fn.bind--------')
+        fn._bind(obj)(...arr)
+        console.log('-------- test bind--------')
+        fn.bind(obj)(...arr)
+
+      }
+
+      // 手撕 call
+      Function.prototype._call = function (obj) {
+        var _obj = Object(obj) || window
+        _obj.fn = this
+        var args = Array.from(arguments).slice(1)
+        _obj.fn(...args)
+        delete _obj.fn
+      }
+
+      // 手撕 apply
+      Function.prototype._apply = function (obj, args) {
+        var _obj = Object(obj) || window
+        _obj.fn = this
+        args = Array.from(args)
+        _obj.fn(...args)
+        delete _obj.fn
+      }
+
+      // 手撕 bind
+      Function.prototype._bind = function (obj) {
+        var _obj = Object(obj) || window
+        var args = [...arguments].slice(1)
+        _obj.fn = this
+        return function () {
+          _obj.fn(...args, ...arguments)
+          delete _obj.fn
+        }
+      }
+
+      test()
+    </script>
+  </body>
+</html>
