@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 最大数
+       * @param nums int整型一维数组
+       * @return string字符串
+       */
+      function solve(nums = []) {
+        const tmp = nums.slice()
+        tmp.sort((a, b) => b - a)
+        let res = tmp.join('')
+        console.log('typeof res :>> ', typeof res)
+        return res
+      }
+
+      var arr = [5, 30, 50, 40, 66, 88, 11]
+      console.log('solve(arr) :>> ', solve(arr))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = [1, 3, 5, 2, 4, 6]
+      /**
+       * the min sum of the array
+       * @param arr int整型一维数组 the array
+       * @return long长整型
+       */
+      function minSum(arr) {
+        let sums = 0
+        let len = arr.length
+        for (let i = 0; i < len; i++) {
+          let sum = 0
+          for (let j = 0; j < i; j++) {
+            if (j < 0) {
+              break
+            }
+            if (arr[j] <= arr[i]) {
+              sum += arr[j]
+            }
+          }
+          sums += sum
+        }
+        return sums
+      }
+    </script>
+  </body>
+</html>
