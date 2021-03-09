@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var object = { a: [{ b: { c: 3 } }, [{ b: { c: 1 } }]] }
+
+      // 缺点：无法解析 a[0][0].b.c
+      function _get(obj, path, defaultValue) {
+        if (Object.prototype.toString.call(obj) !== '[object Object]') {
+          return new Error('Must be object type')
+        }
+
+        let arr = []
+        if (Array.isArray(path)) {
+          arr = path
+        } else {
+          arr = path.split('.').reduce((prev, item) => {
+            while (item.indexOf('[') !== -1) {
+              var regexRes = item.match(/(\w+)\[(\w+)\]/)
+              if (regexRes.length >= 3) {
+                prev.push(regexRes[1])
+                item = regexRes[2]
+              }
+              prev.push(item)
+            }
+            return prev
+          }, [])
+        }
+
+        // obj.a[0].b.c
+        const len = arr.length
+        let res = obj
+        try {
+          for (const item of arr) {
+            res = res[item]
+          }
+        } catch (error) {
+          res = defaultValue
+        }
+        return res || defaultValue
+      }
+
+      // 不支持：path 路径为数组时传入字符数字或者纯数字，例如：['a', 0, 0, b, c]
+      function _get(obj, path, defaultValue) {
+        if (Object.prototype.toString.call(obj) !== '[object Object]') {
+          return new Error('Must be object type')
+        }
+
+        if (Array.isArray(path)) {
+          path = path.join('.')
+        }
+
+        let res
+        try {
+          res = eval('obj.' + path) || defaultValue
+        } catch (error) {
+          res = defaultValue
+        }
+        return res
+      }
+      var v1 = _get(object, 'a[0].b.c')
+      console.log('v1 :>> ', v1)
+      // => 3
+
+      var v2 = _get(object, ['a[0]', 'b', 'c'])
+      console.log('v2 :>> ', v2)
+      // => 3
+
+      var v3 = _get(object, 'a.b.c', 'default')
+      console.log('v3 :>> ', v3)
+      // => 'default'
+
+      var v4 = _get(object, 'a[1][0].b.c')
+      console.log('v4 :>> ', v4)
+      // => 1
+    </script>
+  </body>
+</html>
