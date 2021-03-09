@@ -11,6 +11,7 @@
     </style>
   </head>
   <body>
+    <button id="btn">点击</button>
     <script>
       // 防抖: 函数在指定时间后执行，如果在此时间段内再次被调用，则重新计时
 
@@ -19,7 +20,7 @@
         let timer = null
         // 将 debounce 处理结果当作函数返回
         // 触发事件回调时执行这个返回函数
-        return function(...args) {
+        return function (...args) {
           // 如果已经设定过定时器就清空上一次的定时器
           if (timer) clearTimeout(timer)
 
@@ -30,13 +31,11 @@
         }
       }
 
-      window.addEventListener(
-        'scroll',
-        debounce(function(e) {
-          console.log(e)
-          // console.log(document.documentElement.scrollTop)
-        })
-      )
+      var btn = document.getElementById('btn')
+      function onclick(e) {
+        console.log(e)
+      }
+      btn.addEventListener('click', debounce(onclick))
     </script>
   </body>
 </html>
