@@ -7,75 +7,129 @@
   </head>
   <body>
     <script>
-      var obj1 = {
-        name: 'harry',
-        age: 18,
-        language: ['en-us', 'Spanish', ['Chinese', 'Cantonese']],
-        birth: new Date(),
-        obj: { a: 1, b: 2 },
-        test: function () {
-          this.name = 'xxx'
-        },
-        reg: new RegExp(
-          /^([A-Za-z0-9_\-])+\@([A-Za-z0-9_\-])+\.[A-Za-z]{2,5}$/g
-        ),
+      // 解决循环引用问题、数组
+      function getType(target) {
+        return Object.prototype.toString.call(target)
       }
-
-      // 无法拷贝函数、正则、date
-      function deepCopy(obj) {
-        var str = JSON.stringify(obj)
-        var copyObj = JSON.parse(str)
-        return copyObj
-      }
-
-      function deepCopy2(target) {
-        var res = null
-        if (Array.isArray(target)) {
-          res = []
-        } else if (target instanceof RegExp) {
-          // 慎用
-          return eval(`new RegExp(${target.toString()})`)
-        } else {
-          res = {}
-        }
-
-        for (const key in target) {
-          if (
-            typeof target[key] === 'object' &&
-            target[key] !== null &&
-            !(target[key] instanceof Date)
-          ) {
-            console.warn('复杂类型')
-            res[key] = deepCopy2(target[key])
-          } else {
-            console.warn('简单类型')
-            res[key] = target[key]
+      function dpcp(target, map = new WeakMap()) {
+        if (typeof target === 'object') {
+          // 数组还是对象
+          const cloneTarget = Array.isArray(target) ? [] : {}
+          // 防止循环引用造成死循环
+          if (map.get(target)) {
+            return map.get(target)
           }
+          map.set(target, cloneTarget)
+          // 遍历对象键值
+          for (const key in target) {
+            const item = target[key]
+            if (getType(item) === '[object Date]') {
+              // 日期类型
+              cloneTarget[key] = new Date(item)
+            } else if (getType(item) === '[object Error]') {
+              // Error 类型
+              cloneTarget[key] = new Error(item)
+            } else if(getType(item) === '[object Symbol]') {
+              cloneTarget[key] = Object(Symbol.prototype.valueOf.call(item));
+            } else {
+              // 其他类型
+              cloneTarget[key] = item
+            }
+          }
+          return cloneTarget
+        } else {
+          return target
         }
-        return res
       }
 
-      var obj2 = deepCopy(obj1)
-      var obj3 = deepCopy2(obj1)
-      // var obj4 = shallowCopy2(obj1)
+      var obj1 = {
+        field1: 1,
+        field2: undefined,
+        field3: 'ConardLi',
+        field4: {
+          child: 'child',
+          child2: {
+            child2: 'child2',
+          },
+        },
+        field5: [1, 2],
+        filed6: new Error('xxx'),
+        field7: new Date(),
+        field8: Symbol(123)
+      }
+      obj1.obj1 = obj1
 
-      obj2.name = 'Pizi'
-      obj2.age = 20
-      obj2.language[0] = 'en-uk'
-
-      obj3.name = 'Jams'
-      obj3.age = 21
-      obj3.language[1] = 'Korean'
-      obj3.test()
-
-      // obj4.name = 'obj4'
-      // obj4.age = 22
-      // obj4.language[2] = '汉语'
-
-      console.log(obj1)
+      var obj2 = dpcp(obj1)
       console.log(obj2)
-      console.log(obj3)
-      // console.log(obj4)
+    </script>
+    <script>
+      // var obj1 = {
+      //   name: 'harry',
+      //   age: 18,
+      //   language: ['en-us', 'Spanish', ['Chinese', 'Cantonese']],
+      //   birth: new Date(),
+      //   obj: { a: 1, b: 2 },
+      //   test: function () {
+      //     this.name = 'xxx'
+      //   },
+      //   reg: new RegExp(
+      //     /^([A-Za-z0-9_\-])+\@([A-Za-z0-9_\-])+\.[A-Za-z]{2,5}$/g
+      //   ),
+      // }
+
+      // // 无法拷贝函数、正则、date
+      // function deepCopy1(obj) {
+      //   return JSON.parse(JSON.stringify(obj))
+      // }
+
+      // function deepCopy2(target) {
+      //   var res = null
+      //   if (Array.isArray(target)) {
+      //     res = []
+      //   } else if (target instanceof RegExp) {
+      //     // 慎用
+      //     return eval(`new RegExp(${target.toString()})`)
+      //   } else {
+      //     res = {}
+      //   }
+
+      //   for (const key in target) {
+      //     if (
+      //       typeof target[key] === 'object' &&
+      //       target[key] !== null &&
+      //       !(target[key] instanceof Date)
+      //     ) {
+      //       console.warn('复杂类型')
+      //       res[key] = deepCopy2(target[key])
+      //     } else {
+      //       console.warn('简单类型')
+      //       res[key] = target[key]
+      //     }
+      //   }
+      //   return res
+      // }
+
+      // var obj2 = deepCopy1(obj1)
+      // var obj3 = deepCopy2(obj1)
+      // // var obj4 = shallowCopy2(obj1)
+
+      // obj2.name = 'Pizi'
+      // obj2.age = 20
+      // obj2.language[0] = 'en-uk'
+
+      // obj3.name = 'Jams'
+      // obj3.age = 21
+      // obj3.language[1] = 'Korean'
+      // obj3.test()
+
+      // // obj4.name = 'obj4'
+      // // obj4.age = 22
+      // // obj4.language[2] = '汉语'
+
+      // console.log(obj1)
+      // console.log(obj2)
+      // console.log(obj3)
+      // // console.log(obj4)
     </script>
   </body>
 </html>
