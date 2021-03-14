@@ -1,0 +1,18 @@
+<div id="app"></div>
+<script>
+  function tpl(templateStr = "", arr = []) {
+    var res = templateStr.replace(
+      /(\{\{\$\w+\}\})/g,
+      function (substring, ...args) {
+        const index = substring.match(/\{\{\$(\d+)\}\}/)[1];
+        return arr[index];
+      }
+    );
+    // console.log('res :>> ', res);
+    return res;
+  }
+
+  var templateStr = "<div>{{$0}}({{$1}})</div>";
+  var arr = ["好未来", "TAL"];
+  console.log(tpl(templateStr, arr));
+</script>
