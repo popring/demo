@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手动实现 平方根 函数，不能使用 sqrt，经度精确到 0.001
+      var mySqrt = function (x) {
+        if (x < 2) return 1
+        let left = 1
+        let right = x / 2
+        let mid
+
+        while (left <= right) {
+          mid = (left + right) / 2
+          let res = mid * mid
+          if (res > x) {
+            right = mid - 0.001
+          } else if (res < x) {
+            left = mid + 0.001
+          } else {
+            return mid
+          }
+          if (right < left) {
+            ;[left, right] = [right, left]
+          }
+          if(left.toFixed(3) === right.toFixed(3)) {
+            return mid
+          }
+        }
+        return mid
+      }
+
+      console.log(mySqrt(8))
+    </script>
+  </body>
+</html>

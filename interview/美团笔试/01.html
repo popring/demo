@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 二维数组翻转，以 i,j 相同的坐标进行 180 度翻转，返回翻转后的数组
+      function solve(n, m, arr) {
+        let res = new Array(n).fill(0);
+        res.forEach((val, index)=> {
+          res[index] = new Array(m)
+        })
+
+        for (let i = 0; i < n; i++) {
+          for (let j = 0; j < m; j++) {
+            // if (i === j) continue;
+            console.log("i, j :>> ", i, j);
+            res[j][i] = arr[i][j];
+          }
+        }
+        return res;
+      }
+
+      var res = solve(3, 3, [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ]);
+      console.log("res :>> ", res);
+    </script>
+  </body>
+</html>
