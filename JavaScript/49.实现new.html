@@ -33,8 +33,10 @@
       function create(Fun, ...args) {
         const obj = Object.create({})
         obj.__proto__ = Fun.prototype
-        Fun.apply(obj, args)
-        return obj
+        const result = Fun.apply(obj, args)
+        return Object.prototype.toString.call(result) === '[object Object]'
+          ? result
+          : obj
       }
       var c3 = create(Counter, 'ko')
       console.log(c3.name)

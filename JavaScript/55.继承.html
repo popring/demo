@@ -7,46 +7,46 @@
   </head>
   <body>
     <script>
-      // // 1. 原型继承，无法以参数形式传入属性
-      // // 父类
-      // function SuperType(colors = ['red', 'blue', 'green']) {
-      //   this.colors = colors
-      // }
-      // // 子类
-      // function SubType() {}
-      // // 继承父类
-      // SubType.prototype = new SuperType()
-      // // 以这种方式将 constructor 属性指回 SubType 会改变 constructor 为可遍历属性
-      // SubType.prototype.constructor = SubType
+      // 1. 原型继承，无法以参数形式传入属性
+      // 父类
+      function SuperType(colors = ['red', 'blue', 'green']) {
+        this.colors = colors
+      }
+      // 子类
+      function SubType() {}
+      // 继承父类
+      SubType.prototype = new SuperType()
+      // 以这种方式将 constructor 属性指回 SubType 会改变 constructor 为可遍历属性
+      SubType.prototype.constructor = SubType
 
-      // let superInstance1 = new SuperType(['yellow', 'pink'])
-      // let subInstance1 = new SubType()
-      // let subInstance2 = new SubType()
-      // superInstance1.colors // => ['yellow', 'pink']
-      // subInstance1.colors // => ['red', 'blue', 'green']
-      // subInstance2.colors // => ['red', 'blue', 'green']
-      // subInstance1.colors.push('black')
-      // subInstance1.colors // => ['red', 'blue', 'green', 'black']
-      // subInstance2.colors // => ['red', 'blue', 'green', 'black']
+      let superInstance1 = new SuperType(['yellow', 'pink'])
+      let subInstance1 = new SubType()
+      let subInstance2 = new SubType()
+      superInstance1.colors // => ['yellow', 'pink']
+      subInstance1.colors // => ['red', 'blue', 'green']
+      subInstance2.colors // => ['red', 'blue', 'green']
+      subInstance1.colors.push('black')
+      subInstance1.colors // => ['red', 'blue', 'green', 'black']
+      subInstance2.colors // => ['red', 'blue', 'green', 'black']
 
-      // // 2. 组合继承实现，存在问题：父类的构造函数被调用了两次（创建子类原型时调用了一次，创建子类实例时又调用了一次），导致子类原型上会存在父类实例属性，浪费内存。
-      // function Parent(value) {
-      //   this.value = value
-      // }
+      // 2. 组合继承实现，存在问题：父类的构造函数被调用了两次（创建子类原型时调用了一次，创建子类实例时又调用了一次），导致子类原型上会存在父类实例属性，浪费内存。
+      function Parent(value) {
+        this.value = value
+      }
 
-      // Parent.prototype.getValue = function () {
-      //   console.log(this.value)
-      // }
+      Parent.prototype.getValue = function () {
+        console.log(this.value)
+      }
 
-      // function Child(value) {
-      //   Parent.call(this, value)
-      // }
+      function Child(value) {
+        Parent.call(this, value)
+      }
 
-      // Child.prototype = new Parent()
+      Child.prototype = new Parent()
 
-      // const child = new Child(1)
-      // console.log(child instanceof Parent)
-      // child instanceof Parent
+      const child = new Child(1)
+      console.log(child instanceof Parent)
+      child instanceof Parent
 
       // 3. 寄生组合继承实现
       function Parent(value) {
