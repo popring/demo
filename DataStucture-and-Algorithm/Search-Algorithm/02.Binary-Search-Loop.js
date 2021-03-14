@@ -1,6 +1,6 @@
 /**
  * 二分查找循环版
- *
+ * 首要条件就是，元素必须是有序的。
  * 如果目标值等于中间元素，则找到目标值。
  * 如果目标值较小，继续在左侧搜索。
  * 如果目标值较大，则继续在右侧搜索。
@@ -12,6 +12,8 @@
 Array.prototype.binarySearchLoop = function (target) {
   // 空数组查找，返回-1
   if (this.length === 0) return -1
+  // 将原数组备份
+  let origin = this.slice()
   // 首先进行排序
   this.sort((a, b) => a - b)
   // 左指针
@@ -24,6 +26,8 @@ Array.prototype.binarySearchLoop = function (target) {
     // 原本是这样，pivot = Math.floor((left + right) / 2)，leetcode官方解释，阻止溢出（Prevent (left + right) overflow）
     pivot = left + Math.floor((right - left) / 2)
     if (this[pivot] === target) {
+      // 恢复数据
+      this = origin
       return pivot
     } else if (this[pivot] > target) {
       right = pivot - 1
@@ -31,6 +35,8 @@ Array.prototype.binarySearchLoop = function (target) {
       left = pivot + 1
     }
   }
+  // 恢复数据
+  this = origin
   return -1
 }
 

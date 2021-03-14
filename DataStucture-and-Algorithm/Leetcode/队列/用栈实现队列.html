@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var Q = {
+        a: [], // 主栈
+        b: [], // 辅助栈
+        // 入栈
+        push(val) {
+          let lenA = this.a.length
+          let lenB = this.b.length
+          if (lenA === lenB) {
+            this.a.push(val)
+          } else {
+            this.b.push(val)
+          }
+          return lenA + lenB + 1
+        },
+        // 出栈
+        pull() {
+          let lenA = this.a.length
+
+          const fn = (popArray, pushArray, len) => {
+            for (let i = 0; i < len; i++) {
+              let pval = popArray.pop()
+              pushArray.push(pval)
+            }
+          }
+
+          fn(this.a, this.b, lenA - 1)
+          const result = this.a.pop()
+          fn(this.b, this.a, lenA - 1)
+
+          let a = this.a
+          this.a = this.b
+          this.b = a
+
+          return result
+        },
+      }
+
+      function test(Q) {
+        Q.push('a')
+        Q.push('b')
+        Q.push('c')
+        Q.push('d')
+        Q.push('e')
+        Q.push('f')
+        console.log('Q.pull() :>> ', Q.pull()) // a
+        console.log(Q.pull()) // b
+        console.log(Q.pull()) // c
+        console.log(Q.pull()) // d
+        console.log(Q.pull()) // e
+        console.log(Q.pull()) // f
+      }
+      test(Q)
+    </script>
+  </body>
+</html>
