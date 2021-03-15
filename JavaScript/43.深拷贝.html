@@ -29,8 +29,12 @@
             } else if (getType(item) === '[object Error]') {
               // Error 类型
               cloneTarget[key] = new Error(item)
-            } else if(getType(item) === '[object Symbol]') {
-              cloneTarget[key] = Object(Symbol.prototype.valueOf.call(item));
+            } else if (getType(item) === '[object Symbol]') {
+              cloneTarget[key] = Object(Symbol.prototype.valueOf.call(item))
+            } else if (
+              Object.prototype.toString.call(item) === '[object Array]'
+            ) {
+              cloneTarget[key] = dpcp(item)
             } else {
               // 其他类型
               cloneTarget[key] = item
@@ -55,7 +59,7 @@
         field5: [1, 2],
         filed6: new Error('xxx'),
         field7: new Date(),
-        field8: Symbol(123)
+        field8: Symbol(123),
       }
       obj1.obj1 = obj1
 
