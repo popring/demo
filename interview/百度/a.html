@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 斐波那契
+      function fn(num) {
+        var arr = [0, 1];
+        if (num <= 1) return arr[num];
+        for (let i = 2; i <= num; i++) {
+          arr[i] = arr[i - 1] + arr[i - 2];
+        }
+        return arr[num]
+      }
+      function fn(num) {
+        if (num <= 0) return 0;
+        if (num === 1) return 1;
+        return fn(num - 1) + fn(num - 2);
+      }
+      console.log(fn(6));
+
+      // 查找当前页面最多的标签名是啥
+      function findMaxTag() {
+        let tags = document.getElementsByTagName("*");
+        let obj = {};
+        let maxTag = "";
+        let maxNum = 0;
+        for (const item of tags) {
+          let tagName = item.tagName;
+          if (!obj[tagName]) {
+            obj[tagName] = 1;
+          } else {
+            obj[tagName]++;
+
+            if (obj[tagName] > maxNum) {
+              maxTag = tagName;
+              maxNum = obj[tagName];
+            }
+          }
+        }
+        return maxTag
+      }
+
+      // 简单手写 Promise.all
+      function PromiseAll(promiseArray) {
+        return new Promise((resolve, reject) => {
+          let counter = 0;
+          let len = promiseArray.length;
+          let res = [];
+          for (let i = 0; i < len; i++) {
+            promiseArray[i].then((val) => {
+              res[i] = val;
+              counter++;
+              if (counter === len) {
+                resolve(res);
+              }
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
