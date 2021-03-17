@@ -1,17 +1,24 @@
+<div id="app"></div>
 <script>
   // 检测浏览器是否支持 webp 格式图片
   function checkWebp() {
     try {
       return (
         document
-          .createElement("canvas")
-          .toDataURL("image/webp")
-          .indexOf("data:image/webp") === 0
-      );
+          .createElement('canvas')
+          .toDataURL('image/webp')
+          .indexOf('data:image/webp') === 0
+      )
     } catch (e) {
-      return false;
+      return false
     }
   }
 
-  console.log(checkWebp());
+  var canIUseWebp = checkWebp()
+  var app = document.getElementById('app')
+  app.innerHTML =
+    '当前浏览器对 Webp 格式图片支持效果：' + (canIUseWebp
+      ? '<span style="color: green;">支持</span>'
+      : '<span style="color: red;">不支持</span>')
+  console.log(app.innerText);
 </script>
