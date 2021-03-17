@@ -1,0 +1,17 @@
+<script>
+  // 检测浏览器是否支持 webp 格式图片
+  function checkWebp() {
+    try {
+      return (
+        document
+          .createElement("canvas")
+          .toDataURL("image/webp")
+          .indexOf("data:image/webp") === 0
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  console.log(checkWebp());
+</script>
