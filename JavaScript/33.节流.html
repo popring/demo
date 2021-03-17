@@ -8,20 +8,39 @@
   <body>
     <script>
       // 节流：某个时间内最多执行一次
-      let throttle = (fn, wait = 1000) => {
-        let previous = 0
-        return function(...args) {
+      // let throttle = (fn, wait = 1000) => {
+      //   let previous = 0
+      //   return function(...args) {
+      //     let now = +new Date()
+      //     if (now - previous > wait) {
+      //       previous = now
+      //       fn.apply(this, args)
+      //     }
+      //   }
+      // }
+
+      function throttle(fun, delay) {
+        let last, deferTimer
+        return function (args) {
+          let that = this
+          let _args = arguments
           let now = +new Date()
-          if (now - previous > wait) {
-            previous = now
-            fn.apply(this, args)
+          if (last && now < last + delay) {
+            clearTimeout(deferTimer)
+            deferTimer = setTimeout(function () {
+              last = now
+              fun.apply(that, _args)
+            }, delay)
+          } else {
+            last = now
+            fun.apply(that, _args)
           }
         }
       }
 
-      document.documentElement.onmousemove = throttle(function(e) {
+      document.documentElement.onmousemove = throttle(function (e) {
         console.log('x: ' + e.pageX + ' Y: ' + e.pageY)
-      })
+      }, 1000)
     </script>
   </body>
 </html>
