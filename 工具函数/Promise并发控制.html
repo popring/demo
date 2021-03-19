@@ -1,0 +1,24 @@
+<div id="app"></div>
+<script>
+  // Promise 并发控制
+  function limitLoad(urls, hanlder, limit) {
+    const sequeues = [].concat(urls)
+    let promises = []
+
+    promises = sequeues.splice(0, limit).map((url, index) => {
+      return hanlder(url).then(() => {
+        return index
+      })
+    })
+
+    let p = Promise.race(promises)
+    for (let i = 0; i < sequeues.length; i++) {
+      p = p.then((res) => {
+        promises[res] = hanlder(sequeues[i]).then(() => {
+          return res
+        })
+      })
+      return Promise.race(promises)
+    }
+  }
+</script>
