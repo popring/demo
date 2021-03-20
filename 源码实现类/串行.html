@@ -1,0 +1,34 @@
+<script>
+  // 串行
+  function queue(list) {
+    let fn = list.shift()
+    fn(next)
+
+    function next() {
+      if(list.length === 0) return
+      let fn = list.shift()
+      fn(next)
+    }
+  }
+
+  function task1(next) {
+    setTimeout(function () {
+      console.log(1)
+      next()
+    }, 3000)
+  }
+
+  function task2(next) {
+    console.log(2)
+    next()
+  }
+
+  function task3(next) {
+    setTimeout(function () {
+      console.log(3)
+      next()
+    }, 200)
+  }
+
+  queue([task1, task2, task3]) // 1 2 3
+</script>

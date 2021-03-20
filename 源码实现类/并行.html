@@ -1,0 +1,35 @@
+<script>
+  function queue(list, count) {
+    let array = list.splice(0, count)
+    for (let fn of array) {
+      fn(next)
+    }
+
+    function next() {
+      let array = list.splice(0, count)
+      for (let fn of array) {
+        fn(next)
+      }
+    }
+  }
+
+  function task1(next) {
+    setTimeout(function () {
+      console.log(1)
+      next()
+    }, 1000)
+  }
+
+  function task2(next) {
+    console.log(2)
+    next()
+  }
+
+  function task3(next) {
+    setTimeout(function () {
+      console.log(3)
+      next()
+    }, 200)
+  }
+  queue([task1, task2, task3], 2) // 输出 2 3 1
+</script>
