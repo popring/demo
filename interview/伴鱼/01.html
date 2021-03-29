@@ -1,0 +1,27 @@
+<script>
+  function compressString(str) {
+    // write code here
+    if(str.length <= 2) return str 
+    let res = "";
+    let now = "";
+    let num = 0;
+    for (let i = 0; i < str.length; i++) {
+      if (now.length === 0) {
+        now = str[i];
+        num = 1;
+      } else if (now !== str[i]) {
+        res = res + now + num;
+        now = str[i];
+        num = 1;
+      } else {
+        num++;
+      }
+    }
+    res = res + now + num;
+    if(res.length > str.length) return str
+    return res;
+  }
+
+  var res = compressString("aa");
+  console.log(res);
+</script>

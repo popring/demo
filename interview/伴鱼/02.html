@@ -1,0 +1,22 @@
+<script>
+  // 只有0，1，2 排序，时间复杂度要求为O(n)
+  function sort(array) {
+    let zero = [];
+    let one = [];
+    let two = [];
+    for (let i = 0; i < array.length; i++) {
+      const item = array[i];
+      if (item === 0) {
+        zero.push(item);
+      } else if (item === 1) {
+        one.push(item);
+      } else {
+        two.push(item);
+      }
+    }
+    return zero.concat(one, two)
+  }
+
+  var res = sort([2,1,1,2]);
+  console.log(res);
+</script>
