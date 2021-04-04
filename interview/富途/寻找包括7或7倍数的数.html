@@ -1,0 +1,26 @@
+<script>
+  function isSeven(num) {
+    let tmp = num
+    if (helper(num)) return true
+    while (tmp >= 10) {
+      if (helper(tmp)) return true
+      tmp = parseInt(tmp / 10)
+    }
+    if(helper(tmp)) return true
+    return false
+  }
+
+  function helper(num) {
+    if (num % 7 === 0) {
+      return true
+    }else if(num % 10 === 7) {
+      return true
+    }
+    return false
+  }
+
+  console.log(isSeven(7));
+  console.log(isSeven(17));
+  console.log(isSeven(171));
+  console.log(isSeven(1710));
+</script>
