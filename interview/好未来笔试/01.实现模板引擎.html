@@ -1,5 +1,6 @@
 <div id="app"></div>
 <script>
+  // 题目：简单实现模板引擎，可在将html中的变量实现渲染
   function tpl(templateStr = "", arr = []) {
     var res = templateStr.replace(
       /(\{\{\$\w+\}\})/g,

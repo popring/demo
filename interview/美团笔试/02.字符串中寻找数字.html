@@ -1,0 +1,18 @@
+<script>
+  // 从字符串中找出数字，0 开头自动省略，例如 015 为 15，00 为 0，最终返回一个数组，从小到大排序。
+  var str = 'He15l054lo87w00or7l87d'
+
+  function findNumber(str) {
+    let res = str.match(/(\d+)/g)
+
+    res = res
+      .map((item) => {
+        return parseInt(item)
+      })
+      .sort((a, b) => a - b)
+
+    return res
+  }
+
+  console.log('findNumber(str) :>> ', findNumber(str))
+</script>

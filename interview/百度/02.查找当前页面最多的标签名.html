@@ -1,0 +1,23 @@
+<script>
+  // 查找当前页面最多的标签名是啥
+  function findMaxTag() {
+    let tags = document.getElementsByTagName('*')
+    let obj = {}
+    let maxTag = ''
+    let maxNum = 0
+    for (const item of tags) {
+      let tagName = item.tagName
+      if (!obj[tagName]) {
+        obj[tagName] = 1
+      } else {
+        obj[tagName]++
+
+        if (obj[tagName] > maxNum) {
+          maxTag = tagName
+          maxNum = obj[tagName]
+        }
+      }
+    }
+    return maxTag
+  }
+</script>

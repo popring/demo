@@ -1,6 +1,6 @@
 <script>
+  // 题目：压缩字符，aabbcc -> a2b2c2 ，若压缩后比原字符长，则返回原字符，例如，aab -> aab
   function compressString(str) {
-    // write code here
     if(str.length <= 2) return str 
     let res = "";
     let now = "";

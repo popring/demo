@@ -1,0 +1,19 @@
+<script>
+  // 简单手写 Promise.all（当时时间差不多了，就简单实现了下）
+  function PromiseAll(promiseArray) {
+    return new Promise((resolve, reject) => {
+      let counter = 0
+      let len = promiseArray.length
+      let res = []
+      for (let i = 0; i < len; i++) {
+        promiseArray[i].then((val) => {
+          res[i] = val
+          counter++
+          if (counter === len) {
+            resolve(res)
+          }
+        })
+      }
+    })
+  }
+</script>
