@@ -1,0 +1,44 @@
+<script>
+  // 将url的信息解析为一个对象
+  // 需要解析出的参数 
+  // 协议：https、域名：www.baidu.com、路径：/s
+  // query：多个重复的键值为数组，enabled无值为布尔值
+  var url = 'https://www.baidu.com/s?f=1&f=2&f=3&kid=11&type=search&enabled'
+  var res = parse(url)
+  console.log('res :>> ', res)
+
+  function parse(url) {
+    // 协议
+    let protocol = url.split(':')[0]
+    // 域名
+    let domain = url.match(/\w{0,}\.{0,1}\w+\.\w+/)[0]
+
+    // path
+    let path = url.split(domain)[1]
+    path = path.split('?')[0]
+
+    // query
+    let obj = {}
+    let queryArr = url.split('?')[1].split('&')
+    queryArr.forEach((item) => {
+      let [key, val] = item.split('=')
+      if (!obj[key]) {
+        obj[key] = val || true
+      } else {
+        if (Array.isArray(obj[key])) {
+          obj[key].push(val)
+        } else {
+          obj[key] = [obj[key]]
+          obj[key].push(val)
+        }
+      }
+    })
+
+    return {
+      protocol,
+      path,
+      query: obj,
+      domain,
+    }
+  }
+</script>
