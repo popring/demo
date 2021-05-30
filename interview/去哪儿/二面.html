@@ -1,0 +1,34 @@
+<script>
+  // 两个已排序的数组，进行合并
+  function fn(arr, arr2) {
+    let res = []
+    let p1 = 0
+    let p2 = 0
+    // let maxLen = Math.max(arr.length, arr2.length)
+    while (p1 < arr.length && p2 < arr2.length) {
+      if (arr[p1] > arr2[p2]) {
+        res.push(arr2[p2++])
+      } else {
+        res.push(arr[p1++])
+      }
+    }
+    if (p1 >= arr.length) {
+      res.push(arr2.slice(p2))
+    } else if (p2 >= arr2.length) {
+      res.push(arr.slice(p1))
+    }
+
+    return res
+  }
+</script>
+
+<script>
+  // 手撕 apply
+  Function.prototype._apply = function (obj, args) {
+    var _obj = Object(obj) || window
+    _obj.fn = this
+    args = Array.from(args)
+    _obj.fn(...args)
+    delete _obj.fn
+  }
+</script>

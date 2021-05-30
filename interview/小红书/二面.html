@@ -1,0 +1,30 @@
+<div id="app"></div>
+
+<script>
+  // 1. 简单实现模板渲染（类似这样，原题忘了）
+  var obj = {
+    name: 'jony',
+    age: 18,
+  }
+  var template = `<div>
+  <p>name: {{obj.name}}</p>
+  <p>age: {{obj.age}}</p>
+</div>`
+
+  function parseTemplate(template = '', obj = {}) {
+    if (typeof template !== 'string') throw new Error('模板需为字符串')
+    if (typeof obj !== 'object') throw new Error('obj需为对象类型')
+    const regex = /\{\{(\w+\.{0,}\w+)\}\}/g
+    const res = template.replaceAll(regex, function (match, p1) {
+      return eval(p1)
+    })
+
+    return res
+  }
+
+  parseTemplate(template, obj)
+
+  // 2. 实现 _.get()
+  // 可参考 https://github.com/popring/demo/blob/master/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/_.get%E5%AE%9E%E7%8E%B0.html
+  
+</script>

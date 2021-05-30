@@ -1,0 +1,23 @@
+<script>
+  // 7 -> 49 -> 16+81=97 -> 81+49=130 -> 1+9+0=10 -> 1+0=1 -> 1 (True)
+  // 11 -> 2 -> 4 -> 16 -> 37 -> 58 -> 89 -> 145 -> 42 -> 20 -> 4 (False)
+  // 所有的数要么最终结果为1（第一个例子），要么会形成环（第二个例子），为什么会是这样？
+  // 写一个函数来计算，为环返回 false，为1返回 true。
+
+  let arr = []
+  function fn(num, index) {
+    if (num === 1) return true
+    if (arr.lastIndexOf(num) !== index && arr.lastIndexOf(num) !== -1)
+      return false
+    let str = String(num)
+    let sum = 0
+    for (let i = 0; i < str.length; i++) {
+      sum += parseInt(str[i]) * parseInt(str[i])
+    }
+    arr.push(sum)
+    return fn(sum, arr.indexOf(sum))
+  }
+
+  var a = fn(11)
+  console.log(a)
+</script>
