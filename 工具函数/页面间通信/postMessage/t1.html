@@ -1,0 +1,48 @@
+<h1>这是 T1</h1>
+<button id="btn1">打开t2</button>
+<button id="btn2">发送消息到t2</button>
+<pre id="text"></pre>
+
+<script>
+  var t2
+  var btn1 = document.getElementById('btn1')
+  var btn2 = document.getElementById('btn2')
+  var text = document.getElementById('text')
+
+  btn1.addEventListener('click', function() {
+    t2 = window.open('/t2.html')
+    // 若t2页面没有重写 onload 方法，则在t1页面这么写是ok的，但若t2页面已重写 onload 方法，则以下方法不生效。
+    // t2.onload = () => {
+    //   t2.onload()
+    //   btn2.click()
+    // }
+    window.focus()
+    t2.addEventListener('DOMContentLoaded', function() {
+      t2.console.log('t1 挂载在 t2 的 DOMContentLoaded');
+      btn2.click()
+    })
+  })
+
+  btn2.addEventListener('click', function() {
+    console.log('btn2 点击');
+    // t2 页面是否已关闭
+    if(t2.closed) {
+      return
+    }
+    // postMessage 第三个参数设置为 '/' 表示当前域下传递消息
+    t2.postMessage({type: 'popring', message: 't1 发送出去的消息'}, '/')
+    t2.focus()
+  })
+
+  window.addEventListener('message', function(event) {
+    // 过滤非当前域下的消息
+    if(event.origin !== 'http://127.0.0.1:5500' || !event.data) {
+      return
+    }
+    // 过滤其他非本应用传递过来的消息，例如 chrome 的插件就可能也会发送消息（表示 wappalyzer 就会）
+    if(event.data?.type !== 'popring') {
+      return
+    }
+    text.innerText += (JSON.stringify(event.data)+'\n')
+  })
+</script>

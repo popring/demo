@@ -1,0 +1,37 @@
+<h1>这是 T2</h1>
+<button id="btn">发送消息到 t1</button>
+<pre id="text"></pre>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    console.log('t2 DOMContentLoaded');
+  })
+
+  window.onload = function() {
+    console.log('t2 onload');
+  }
+
+  var btn = document.querySelector('#btn')
+  var text = document.getElementById('text')
+  var t1
+
+  btn.addEventListener('click', function() {
+    // t1 页面是否已关闭
+    if(t1.closed) {
+      return
+    }
+    t1.postMessage({type: 'popring', message: 't2 发送出去的消息'}, '/')
+    t1.focus()
+  })
+
+  window.addEventListener('message', function(event) {
+    if(event.origin !== 'http://127.0.0.1:5500' || !event.data) {
+      return
+    }
+    if(event.data?.type !== 'popring') {
+      return
+    }
+    t1 = event.source
+    text.innerText += (JSON.stringify(event.data)+'\n')
+  })
+</script>
