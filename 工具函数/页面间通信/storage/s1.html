@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A页面</title>
+</head>
+<body>
+  <button id="writeBtn">写入storage一个值</button>
+  <button id="deleteBtn">删除storage一个值</button>
+  <button id="modifybtn">修改storage一个值</button>
+
+  <script>
+    let symbolKey = 0
+    let writeBtn = document.getElementById('writeBtn')
+    let deleteBtn = document.getElementById('deleteBtn')
+    let modifybtn = document.getElementById('modifybtn')
+
+
+    writeBtn.addEventListener('click', function() {
+      localStorage.setItem(symbolKey++, Date.now())
+    })
+    deleteBtn.addEventListener('click', function() {
+      const key = localStorage.key(0)
+      if(!key) {
+        console.log('已无可删的localStorage键值了')
+        return
+      }
+      localStorage.removeItem(key)
+    })
+    modifybtn.addEventListener('click', function() {
+      const key = localStorage.key(0)
+      if(!key) {
+        console.log('已无可删的localStorage键值了')
+        return
+      }
+      localStorage.setItem(key, Date.now())
+    })
+  </script>
+</body>
+</html>
