@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+      #draw {
+          margin: 10px auto;
+          display: block;
+      }
+  </style>
+</head>
+<body>
+<canvas id="draw" width="500" height="500"></canvas>
+<script>
+  var draw = document.getElementById('draw')
+
+  if (draw.getContext) {
+    var context = draw.getContext('2d')
+    console.log('%c [ context ]-16', 'font-size:13px; background:pink; color:#bf2c9f;', context)
+
+    drawPath(context)
+  }
+
+  function drawPath(ctx) {
+    // 创建路径
+    ctx.beginPath()
+
+    // 外圆
+    ctx.arc(100, 100, 99, 0, 2 * Math.PI, false)
+
+    // 内圆
+    ctx.moveTo(194, 100)
+    ctx.arc(100, 100, 94, 0, 2 * Math.PI, false)
+
+    // 分针
+    ctx.moveTo(100, 100)
+    ctx.lineTo(100, 15)
+
+    // 时针
+    ctx.moveTo(100, 100)
+    ctx.lineTo(35, 100)
+
+    ctx.stroke()
+  }
+
+</script>
+</body>
+</html>

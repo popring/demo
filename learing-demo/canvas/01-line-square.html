@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+      #draw {
+          margin: 10px auto;
+          display: block;
+      }
+  </style>
+</head>
+<body>
+<canvas id="draw" width="500" height="500"></canvas>
+<script>
+  var draw = document.getElementById('draw')
+
+  if (draw.getContext) {
+    var context = draw.getContext('2d')
+    console.log('%c [ context ]-16', 'font-size:13px; background:pink; color:#bf2c9f;', context)
+
+    // drawLine(context)
+    drawSquare(context)
+
+    exportImage(draw)
+  }
+
+  function drawLine(context) {
+    context.strokeStyle = 'red'
+    context.fillStyle = '#0000ff'
+  }
+
+  function drawSquare(context) {
+    context.fillStyle = '#ff0000'
+    context.fillRect(0, 10, 50, 50)
+
+    context.fillStyle = 'rgba(0, 0, 255, 0.5)'
+    context.fillRect(15, 25, 50, 50)
+
+    context.clearRect(22, 35, 10, 10)
+
+    context.strokeStyle = '#ff0000'
+    context.strokeRect(120, 10, 50, 50)
+  }
+
+  function exportImage(draw) {
+    let imgURI = draw.toDataURL('image/png')
+    let img = document.createElement('img')
+    img.src = imgURI
+    document.body.appendChild(img)
+  }
+</script>
+</body>
+</html>
