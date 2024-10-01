@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lazy Loading with IntersectionObserver & loading="lazy"</title>
+  <style>
+    .image-container {
+      margin: 50px 0;
+      text-align: center;
+    }
+    .image-container img {
+      width: 600px;
+      height: 400px;
+      background-color: #f3f3f3; /* 占位背景颜色 */
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lazy Loading Demo</h1>
+
+  <!-- 前6张图片使用 IntersectionObserver 懒加载 -->
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/FF0000/FFFFFF?text=Image+1" alt="Image 1">
+  </div>
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/00FF00/FFFFFF?text=Image+2" alt="Image 2">
+  </div>
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Image+3" alt="Image 3">
+  </div>
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/FFFF00/FFFFFF?text=Image+4" alt="Image 4">
+  </div>
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/FF00FF/FFFFFF?text=Image+5" alt="Image 5">
+  </div>
+  <div class="image-container">
+    <img class="lazy" data-src="https://via.placeholder.com/600x400/00FFFF/FFFFFF?text=Image+6" alt="Image 6">
+  </div>
+
+  <!-- 后6张图片监听 scroll 属性实现懒加载 -->
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/FF5733/FFFFFF?text=Image+7" alt="Image 7">
+  </div>
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/33FF57/FFFFFF?text=Image+8" alt="Image 8">
+  </div>
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/5733FF/FFFFFF?text=Image+9" alt="Image 9">
+  </div>
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/FF3383/FFFFFF?text=Image+10" alt="Image 10">
+  </div>
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/3383FF/FFFFFF?text=Image+11" alt="Image 11">
+  </div>
+  <div class="image-container">
+    <img class="scroll-lazy" data-src="https://via.placeholder.com/600x400/83FF33/FFFFFF?text=Image+12" alt="Image 12">
+  </div>
+
+  <script>
+    function lazyLoadV1() {
+      const lazyImages = document.querySelectorAll("img.lazy");
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.remove("lazy");
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      lazyImages.forEach(img => observer.observe(img));
+    }
+
+    function lazyLoadV2() {
+      const imageList = document.querySelectorAll('.scroll-lazy')
+
+      document.addEventListener('scroll', () => {
+        imageList.forEach(image => {
+          if(image.getBoundingClientRect().top < window.innerHeight) {
+            image.src = image.dataset.src
+            image.classList.remove("scroll-lazy");
+          }
+        })
+      })
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      lazyLoadV1()
+      lazyLoadV2()
+    });
+  </script>
+
+</body>
+</html>
