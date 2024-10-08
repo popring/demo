@@ -8,6 +8,6 @@ vue-demo
 .idea
 .DS_Store
 /[demo|test|tmp]*.*
-/test.html
+/*.test.*
 cdn.json
 /ts

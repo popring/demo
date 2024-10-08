@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    class MyPromise {
+      constructor(executor) {
+        this.status = 'pending';
+        this.value = undefined;
+        this.reason = undefined;
+        this.onFulfilledCallbacks = [];
+        this.onRejectedCallbacks = [];
+
+        const resolve = (value) => {
+          if (this.status === 'pending') {
+            this.status = 'fulfilled';
+            this.value = value;
+            this.onFulfilledCallbacks.forEach((callback) => callback(this.value));
+          }
+        };
+
+        const reject = (reason) => {
+          if (this.status === 'pending') {
+            this.status = 'rejected';
+            this.reason = reason;
+            this.onRejectedCallbacks.forEach((callback) => callback(this.reason));
+          }
+        };
+
+        try {
+          executor(resolve, reject);
+        } catch (e) {
+          reject(e);
+        }
+      }
+
+      then(onFulfilled, onRejected) {
+        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (value) => value;
+        onRejected = typeof onRejected === 'function' ? onRejected : (reason) => { throw reason; };
+
+        if (this.status === 'fulfilled') {
+          return new MyPromise((resolve, reject) => {
+            try {
+              const x = onFulfilled(this.value);
+              if (x instanceof MyPromise) {
+                x.then(resolve, reject);
+              } else {
+                resolve(x);
+              }
+            } catch (e) {
+              reject(e);
+            }
+          });
+        }
+
+        if (this.status === 'rejected') {
+          return new MyPromise((resolve, reject) => {
+            try {
+              const x = onRejected(this.reason);
+              if (x instanceof MyPromise) {
+                x.then(resolve, reject);
+              } else {
+                resolve(x);
+              }
+            } catch (e) {
+              reject(e);
+            }
+          });
+        }
+
+        if (this.status === 'pending') {
+          return new MyPromise((resolve, reject) => {
+            this.onFulfilledCallbacks.push(() => {
+              try {
+                const x = onFulfilled(this.value);
+                if (x instanceof MyPromise) {
+                  x.then(resolve, reject);
+                } else {
+                  resolve(x);
+                }
+              } catch (e) {
+                reject(e);
+              }
+            });
+            this.onRejectedCallbacks.push(() => {
+              try {
+                const x = onRejected(this.reason);
+                if (x instanceof MyPromise) {
+                  x.then(resolve, reject);
+                } else {
+                  resolve(x);
+                }
+              } catch (e) {
+                reject(e);
+              }
+            });
+          });
+        }
+      }
+
+      catch(onRejected) {
+        return this.then(null, onRejected);
+      }
+    }
+
+    // 测试MyPromise
+    function asyncTask() {
+      return new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          const random = Math.random();
+          console.log('%c [ random ]-117', 'font-size:13px; background:#8750cc; color:#cb94ff;', random)
+          if (random < 0.5) {
+            resolve('任务成功，随机数为：' + random);
+          } else {
+            reject('任务失败，随机数为：' + random);
+          }
+        }, 0);
+      });
+    }
+
+    asyncTask()
+      .then(result => {
+        console.log('成功：', result);
+        return result + ' 并且经过了进一步处理';
+      })
+      .then(newResult => {
+        console.log('第二次成功：', newResult);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+
+
+
+  </script>
+</body>
+
+</html>
