@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function _new(fn, ...args) {
+      const _this = Object.create(fn.prototype)
+      const instance = fn.apply(_this, args)
+      return instance instanceof Object ? instance : _this
+    }
+
+    function Animal(p1, p2) {
+      this.p1 = p1
+      this.p2 = p2
+      this.log = function() {
+        console.log(`log, p1: ${this.p1}, p2: ${this.p2}`)
+      }
+    }
+    Animal.prototype.logV2 = function() {
+      console.log(`logV2, p2: ${this.p2}, p1: ${this.p1}`)
+    }
+
+
+    // 测试
+    const a1 = _new(Animal, 1, 2)
+    a1.log()
+    a1.logV2()
+    console.log('%c [ a1 ]-32', 'font-size:13px; background:#8371f0; color:#c7b5ff;', a1)
+
+    const a2 = new Animal(1, 2)
+    a2.log()
+    a2.logV2()
+    console.log('%c [ a2 ]-37', 'font-size:13px; background:#462589; color:#8a69cd;', a2)
+    
+    
+  </script>
+</body>
+</html>
