@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    async function limitConcurrency(tasks, limit) {
+      let results = []
+      let executing = new Set()
+
+      for (const [index, task] of tasks.entries()) {
+        if (executing.size >= limit) {
+          await Promise.race(executing)
+        }
+
+        const p = task().then(res => {
+          results[index] = res
+          executing.delete(p)
+        })
+        executing.add(p)
+      }
+
+      await Promise.all(executing)
+      console.log('%c [ executing ]-53', 'font-size:13px; background:#fde8cb; color:#ffffff;', executing)
+
+      return results
+    }
+
+
+
+    // 演示用的异步函数
+    const asyncTask = (id, delay) => {
+      return async () => {
+        console.log(`Task ${id} started`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        // console.log(`Task ${id} completed`);
+        return `Result of task ${id}`;
+      };
+    };
+
+    // 使用示例
+    async function demo() {
+      const tasks = [
+        asyncTask(1, 2000),
+        asyncTask(2, 1000),
+        asyncTask(3, 3000),
+        asyncTask(4, 2000),
+        asyncTask(5, 1000),
+      ];
+
+      console.log('Starting tasks with concurrency limit of 3');
+      const results = await limitConcurrency(tasks, 3);
+      console.log('All tasks completed');
+      console.log('Results:', results);
+    }
+
+    // 运行演示
+    demo();
+  </script>
+</body>
+
+</html>
