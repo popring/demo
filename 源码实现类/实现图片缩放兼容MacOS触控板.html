@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支持 macOS 触控板的图片缩放与拖动</title>
+    <style>
+        #image-container {
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            cursor: move;
+            user-select: none;
+            border: 2px solid red; /* 添加边框颜色 */
+        }
+
+        #zoom-image {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #zoom-controls {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="image-container">
+        <img id="zoom-image" src="https://cdn.pixabay.com/photo/2024/09/30/13/58/cactus-9085905_1280.jpg" alt="可缩放和拖动的图片" draggable="false">
+    </div>
+    <div id="zoom-controls">
+        <button id="zoom-in">放大</button>
+        <button id="zoom-out">缩小</button>
+        <button id="reset">重置</button>
+    </div>
+
+    <script>
+        class ImageZoom {
+            constructor(container, image) {
+                this.container = container;
+                this.image = image;
+                this.scale = 1;
+                this.translateX = 0;
+                this.translateY = 0;
+                this.maxScale = 5;
+                this.minScale = 0.1;
+                this.scaleStep = 0.1;
+                this.boundaryLimit = 50; // 限制缩放小于1.5时的边界
+
+                // 初始图片尺寸
+                this.imageWidth = image.naturalWidth || 300;
+                this.imageHeight = image.naturalHeight || 300;
+
+                this.isDragging = false;
+                this.startX = 0;
+                this.startY = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.updateImageSize();
+
+                // 事件绑定
+                this.container.addEventListener('wheel', this.onWheel.bind(this), { passive: false });
+                this.container.addEventListener('mousedown', this.onMouseDown.bind(this));
+                window.addEventListener('mousemove', this.onMouseMove.bind(this));
+                window.addEventListener('mouseup', this.onMouseUp.bind(this));
+                this.container.addEventListener('dragstart', (e) => e.preventDefault());
+            }
+
+            updateImageSize() {
+                const scaledWidth = this.imageWidth * this.scale;
+                const scaledHeight = this.imageHeight * this.scale;
+
+                // 边界检测，防止图片超出容器边界的指定像素值
+                const minTranslateX = Math.min(this.boundaryLimit, this.container.clientWidth - scaledWidth - this.boundaryLimit);
+                const minTranslateY = Math.min(this.boundaryLimit, this.container.clientHeight - scaledHeight - this.boundaryLimit);
+
+                if (this.scale > 1.5) {
+                    // 缩放比例大于1.5，图片贴边
+                    this.translateX = Math.min(0, Math.max(minTranslateX, this.translateX));
+                    this.translateY = Math.min(0, Math.max(minTranslateY, this.translateY));
+                } else {
+                    // 缩放比例小于等于1.5，限制图片不超过容器边界100px
+                    this.translateX = Math.min(this.boundaryLimit, Math.max(minTranslateX, this.translateX));
+                    this.translateY = Math.min(this.boundaryLimit, Math.max(minTranslateY, this.translateY));
+                }
+
+                this.image.style.width = `${scaledWidth}px`;
+                this.image.style.height = `${scaledHeight}px`;
+                this.image.style.left = `${this.translateX}px`;
+                this.image.style.top = `${this.translateY}px`;
+            }
+
+            zoomImage(delta, mouseX, mouseY) {
+                const oldScale = this.scale;
+                this.scale += delta;
+                this.scale = Math.min(Math.max(this.scale, this.minScale), this.maxScale);
+
+                if (mouseX !== undefined && mouseY !== undefined) {
+                    const rect = this.image.getBoundingClientRect();
+                    const offsetX = mouseX - rect.left;
+                    const offsetY = mouseY - rect.top;
+
+                    const scaleRatio = this.scale / oldScale;
+
+                    this.translateX -= offsetX * (scaleRatio - 1);
+                    this.translateY -= offsetY * (scaleRatio - 1);
+                }
+
+                this.updateImageSize();
+            }
+
+            moveImage(deltaX, deltaY) {
+                this.translateX += deltaX;
+                this.translateY += deltaY;
+                this.updateImageSize();
+            }
+
+            resetImage() {
+                this.scale = 1;
+                this.translateX = 0;
+                this.translateY = 0;
+                this.updateImageSize();
+            }
+
+            onWheel(e) {
+                e.preventDefault();
+                const centerX = e.clientX;
+                const centerY = e.clientY;
+
+                if (e.ctrlKey) {
+                    const delta = -e.deltaY * 0.01;
+                    this.zoomImage(delta, centerX, centerY);
+                } else {
+                    this.moveImage(-e.deltaX, -e.deltaY);
+                }
+            }
+
+            onMouseDown(e) {
+                this.isDragging = true;
+                this.startX = e.clientX - this.translateX;
+                this.startY = e.clientY - this.translateY;
+                this.container.style.cursor = 'grabbing';
+            }
+
+            onMouseMove(e) {
+                if (this.isDragging) {
+                    this.translateX = e.clientX - this.startX;
+                    this.translateY = e.clientY - this.startY;
+                    this.updateImageSize();
+                }
+            }
+
+            onMouseUp() {
+                this.isDragging = false;
+                this.container.style.cursor = 'move';
+            }
+        }
+
+        // 实例化 ImageZoom
+        const container = document.getElementById('image-container');
+        const image = document.getElementById('zoom-image');
+        const zoomControl = new ImageZoom(container, image);
+
+        // 绑定按钮事件
+        document.getElementById('zoom-in').addEventListener('click', () => {
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + container.clientWidth / 2;
+            const centerY = rect.top + container.clientHeight / 2;
+            zoomControl.zoomImage(zoomControl.scaleStep, centerX, centerY);
+        });
+
+        document.getElementById('zoom-out').addEventListener('click', () => {
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + container.clientWidth / 2;
+            const centerY = rect.top + container.clientHeight / 2;
+            zoomControl.zoomImage(-zoomControl.scaleStep, centerX, centerY);
+        });
+
+        document.getElementById('reset').addEventListener('click', () => {
+            zoomControl.resetImage();
+        });
+    </script>
+</body>
+
+</html>
