@@ -81,16 +81,15 @@
                 const scaledWidth = this.imageWidth * this.scale;
                 const scaledHeight = this.imageHeight * this.scale;
 
-                // 边界检测，防止图片超出容器边界的指定像素值
+                // 边界检测
                 const minTranslateX = Math.min(this.boundaryLimit, this.container.clientWidth - scaledWidth - this.boundaryLimit);
                 const minTranslateY = Math.min(this.boundaryLimit, this.container.clientHeight - scaledHeight - this.boundaryLimit);
 
+                // 确保图片边缘在缩放后不会超出容器边界
                 if (this.scale > 1.5) {
-                    // 缩放比例大于1.5，图片贴边
-                    this.translateX = Math.min(0, Math.max(minTranslateX, this.translateX));
-                    this.translateY = Math.min(0, Math.max(minTranslateY, this.translateY));
+                    this.translateX = Math.min(0, Math.max(this.container.clientWidth - scaledWidth, this.translateX));
+                    this.translateY = Math.min(0, Math.max(this.container.clientHeight - scaledHeight, this.translateY));
                 } else {
-                    // 缩放比例小于等于1.5，限制图片不超过容器边界100px
                     this.translateX = Math.min(this.boundaryLimit, Math.max(minTranslateX, this.translateX));
                     this.translateY = Math.min(this.boundaryLimit, Math.max(minTranslateY, this.translateY));
                 }
