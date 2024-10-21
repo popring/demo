@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: '20' # 可以选择任意支持的 Node.js 版本
 
-      # Step 3: 安装依赖
-      - name: Install dependencies
-        run: npm install
+      # # Step 3: 安装依赖
+      # - name: Install dependencies
+      #   run: npm install
 
       # Step 4: 执行生成 README 脚本
       - name: Generate README
