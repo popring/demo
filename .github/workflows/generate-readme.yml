@@ -1,0 +1,41 @@
+name: Generate README
+
+on:
+  push:
+    branches:
+      - master  # 当推送到 master 分支时触发
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: 检出仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: 设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # 可以选择任意支持的 Node.js 版本
+
+      # Step 3: 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: 执行生成 README 脚本
+      - name: Generate README
+        run: node generate-readme.js
+
+      # Step 5: 提交更新到仓库
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Auto-generate README with file links"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub Token 进行身份验证
