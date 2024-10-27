@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Handling Demo</title>
+  </head>
+  <body>
+    <h1>JavaScript Error Handling Demo</h1>
+
+    <script>
+      // 1. try...catch
+      try {
+        console.log('1. try...catch example')
+        throw new Error('This is a synchronous error.')
+      } catch (error) {
+        console.error('Caught in try...catch:', error.message)
+      } finally {
+        console.log('Finally block always runs.')
+      }
+
+      // 2. window.onerror
+      window.onerror = function (message, source, lineno, colno, error) {
+        console.error(
+          `2. window.onerror caught error: ${message} at line ${lineno}`
+        )
+        return true // 返回 true 来阻止默认行为，确保代码继续执行
+      }
+
+      // Intentionally throwing an error to trigger window.onerror
+      setTimeout(() => {
+        throw new Error('Global error via window.onerror')
+      }, 0) // 使用 setTimeout 来确保代码继续执行
+
+      // 3. window.addEventListener('error') for capturing resource errors
+      window.addEventListener(
+        'error',
+        function (event) {
+          if (event.target.tagName === 'IMG') {
+            console.error('3. Resource load error (image):', event.target.src)
+          } else {
+            console.error(
+              "3. Captured in window.addEventListener('error'):",
+              event.message
+            )
+          }
+        },
+        true
+      )
+
+      // Intentionally creating an image loading error
+      const img = document.createElement('img')
+      img.src = 'non-existent-image.jpg'
+      document.body.appendChild(img)
+
+      // 4. Promise rejection .catch() handling
+      const promise = new Promise((resolve, reject) => {
+        reject(new Error('4. This is a rejected Promise error.'))
+      })
+
+      promise.catch((error) => {
+        console.error('4. Caught in Promise .catch():', error.message)
+      })
+
+      // 5. Async/await with try...catch
+      async function asyncErrorFunction() {
+        try {
+          console.log('5. Async/await with try...catch example')
+          await Promise.reject(
+            new Error('5. Async error inside async function.')
+          )
+        } catch (error) {
+          console.error('5. Caught in async/await try...catch:', error.message)
+        }
+      }
+
+      asyncErrorFunction()
+
+      // 6. window.addEventListener('unhandledrejection')
+      window.addEventListener('unhandledrejection', function (event) {
+        console.error(
+          '6. Caught in unhandledrejection event:',
+          event.reason.message
+        )
+      })
+
+      // Intentionally rejecting a promise without handling it
+      new Promise((resolve, reject) => {
+        reject(new Error('6. Unhandled Promise rejection error'))
+      })
+    </script>
+  </body>
+</html>
