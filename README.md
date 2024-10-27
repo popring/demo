@@ -39,6 +39,7 @@
 - [53.洗牌算法.html](https://popring.cn/demo/JavaScript/53.%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95.html)
 - [54.DocumentFragment.html](https://popring.cn/demo/JavaScript/54.DocumentFragment.html)
 - [55.继承.html](https://popring.cn/demo/JavaScript/55.%E7%BB%A7%E6%89%BF.html)
+- [56.实现flat.html](https://popring.cn/demo/JavaScript/56.%E5%AE%9E%E7%8E%B0flat.html)
 
 ### Vue/Vue原理-ES5
 - [index.html](https://popring.cn/demo/Vue/Vue%E5%8E%9F%E7%90%86-ES5/index.html)
