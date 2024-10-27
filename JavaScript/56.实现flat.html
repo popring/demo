@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 改进后的 flat 实现
+    function flat(arr, level = Infinity) {
+      const result = [];
+      arr.forEach(item => {
+        if (Array.isArray(item) && level > 0) {
+          result.push(...flat(item, level - 1));
+        } else {
+          result.push(item);
+        }
+      });
+      return result;
+    }
+
+    // 批量执行函数，参数不一致情况
+    function callFnList(fn, params) {
+      params.forEach(paramSet => {
+        let res = fn.apply(this, paramSet);
+        console.log(`Function ${fn.name}, Params: ${JSON.stringify(paramSet)}, Result:`, res);
+        console.log('-----------------------------------------------------------');
+      });
+    }
+
+    const params = [
+      [[1, 2, 3], 1],
+      [[1, 2, 3, [4]]],
+      [[1, 2, 3, [4, [5]]], 1],
+      [[1, 2, 3, [4, [5, [6]]]]],
+    ];
+    callFnList(flat, params);
+  </script>
+</body>
+</html>
