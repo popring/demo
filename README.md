@@ -179,6 +179,7 @@
 ### 源码实现类
 - [_.get实现.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/_.get%E5%AE%9E%E7%8E%B0.html)
 - [call-apply-bind实现.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/call-apply-bind%E5%AE%9E%E7%8E%B0.html)
+- [js捕获异常方法.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/js%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E6%96%B9%E6%B3%95.html)
 - [quicksort.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/quicksort.html)
 - [setTimeout实现setInterval.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/setTimeout%E5%AE%9E%E7%8E%B0setInterval.html)
 - [两大数相加.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E4%B8%A4%E5%A4%A7%E6%95%B0%E7%9B%B8%E5%8A%A0.html)
