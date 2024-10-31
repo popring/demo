@@ -186,6 +186,7 @@
 - [两大数相加.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E4%B8%A4%E5%A4%A7%E6%95%B0%E7%9B%B8%E5%8A%A0.html)
 - [串行.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E4%B8%B2%E8%A1%8C.html)
 - [实现new.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E5%AE%9E%E7%8E%B0new.html)
+- [实现一个EventBus.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAEventBus.html)
 - [实现图片缩放兼容MacOS触控板.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E7%BC%A9%E6%94%BE%E5%85%BC%E5%AE%B9MacOS%E8%A7%A6%E6%8E%A7%E6%9D%BF.html)
 - [并行.html](https://popring.cn/demo/%E6%BA%90%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%B1%BB/%E5%B9%B6%E8%A1%8C.html)
 
