@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class EventBus {
+        constructor() {
+          this.events = {} // 存储事件及其回调
+        }
+
+        $on(event, callback) {
+          // 绑定事件
+          ;(this.events[event] || (this.events[event] = [])).push(callback)
+        }
+
+        $once(event, callback) {
+          // 绑定一次性事件
+          const wrapper = (...args) => {
+            callback(...args)
+            this.$off(event, wrapper)
+          }
+          this.$on(event, wrapper)
+        }
+
+        $emit(event, ...args) {
+          // 触发事件
+          ;(this.events[event] || []).forEach((callback) => {
+            callback(...args)
+          })
+        }
+
+        $off(event, callback) {
+          // 解绑事件
+          if (!this.events[event]) return
+          this.events[event] = this.events[event].filter(
+            (cb) => cb !== callback
+          )
+        }
+      }
+
+      // 实例化 EventBus
+      const eventBus = new EventBus()
+
+      const farewell = (name) => console.log(`Goodbye, ${name}!`)
+      const hello = (name ) => console.log(`Hello, ${name}`)
+      eventBus.$once('farewell', hello)
+      eventBus.$on('farewell', farewell)
+      eventBus.$emit('farewell', 'Allen')
+      eventBus.$emit('farewell', 'Allen')
+    </script>
+  </body>
+</html>
