@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 实现koa洋葱模型
+
+      let middleware = []
+      middleware.push((ctx, next) => {
+        console.log(1)
+        next()
+        console.log(2)
+      })
+      middleware.push((ctx, next) => {
+        console.log(3)
+        next()
+        console.log(4)
+      })
+      middleware.push((ctx, next) => {
+        console.log(5)
+        next()
+        console.log(6)
+      })
+
+      let fn = compose(middleware)
+      fn() // 输出: 1 3 5 6 4 2
+
+      //1. 递归
+      //2. 函数执行到next()时要让下一个函数触发
+      function compose(middleware) {
+        return function fn(context, next) {
+          function dispatch(i) {
+            if (i >= middleware.length) return
+            let fn = middleware[i] // 取当前中间件
+            const next = dispatch.bind(context, i + 1) // 绑定下一个中间件
+            fn(context, next) // 调用当前中间件
+          }
+          return dispatch(0)
+        }
+      }
+    </script>
+  </body>
+</html>
