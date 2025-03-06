@@ -51,6 +51,7 @@
 - [index.html](https://popring.cn/demo/Vue/toy-vue/index.html)
 
 ### demo-tmp
+- [paste-test.html](https://popring.cn/demo/demo-tmp/paste-test.html)
 - [svg两个半圆.html](https://popring.cn/demo/demo-tmp/svg%E4%B8%A4%E4%B8%AA%E5%8D%8A%E5%9C%86.html)
 
 ### frame-demo
